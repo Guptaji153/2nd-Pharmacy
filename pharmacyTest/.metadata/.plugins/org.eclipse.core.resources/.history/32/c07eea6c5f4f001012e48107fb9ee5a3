@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.java.test.model.Pharmacy" table="Pharmacy" dynamic-update="true">
+        <id name="pharmacyId" column="pharmacy_id" type="string">
+            <generator class="assigned"/>
+        </id>
+
+        <property name="pharmacyName" column="pharmacy_name" type="string" not-null="true" length="100"/>
+        <property name="contactNo" column="contact_no" type="string" not-null="true" length="15" unique="true"/>
+        <property name="email" column="email" type="string" not-null="true" length="100" unique="true"/>
+        <property name="password" column="password" type="string" not-null="false" length="255"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true" insert="false" update="false"/>
+        <property name="state" column="state" type="string" not-null="true" length="50"/>
+        <property name="city" column="city" type="string" not-null="true" length="100"/>
+        <property name="licenseNo" column="license_no" type="string" not-null="true" length="20" unique="true"/>
+        <property name="status" column="status" type="string" not-null="true" length="20"/>
+
+        <property name="ownerName" column="owner_name" type="string" not-null="true" length="100"/>
+        <property name="gstNo" column="gst_number" type="string" not-null="true" length="20"/>
+        <property name="addressLine1" column="address_line1" type="string" not-null="true" length="255"/>
+        <property name="pinCode" column="pin_code" type="string" not-null="true" length="10"/>
+
+    </class>
+</hibernate-mapping>

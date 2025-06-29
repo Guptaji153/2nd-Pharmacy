@@ -1,0 +1,236 @@
+//
+//package com.java.test.controller;
+//
+//import javax.faces.application.FacesMessage;
+//import javax.faces.context.FacesContext;
+//
+//
+//import com.java.test.dao.impl.PharmacyDaoImpl;
+//import com.java.test.model.Pharmacy;
+//import com.java.test.model.PharmacyOTP;
+//
+//public class PharmacyController {
+//
+//	private PharmacyDaoImpl pharmacyDao;
+//	private Pharmacy pharmacy;
+//	private PharmacyOTP pharmacyOTP;
+//	
+//	public PharmacyOTP getPharmacyOTP() {
+//		return pharmacyOTP;
+//	}
+//	public void setPharmacyOTP(PharmacyOTP pharmacyOTP) {
+//		this.pharmacyOTP = pharmacyOTP;
+//	}
+//	public PharmacyDaoImpl getPharmacyDao() {
+//		return pharmacyDao;
+//	}
+//	public void setPharmacyDao(PharmacyDaoImpl pharmacyDao) {
+//		this.pharmacyDao = pharmacyDao;
+//	}
+//	public Pharmacy getPharmacy() {
+//		return pharmacy;
+//	}
+//	public void setPharmacy(Pharmacy pharmacy) {
+//		this.pharmacy = pharmacy;
+//	}
+//	
+//	public String registerPharmacy() {
+//	    String result = pharmacyDao.addPharmacy(pharmacy);
+//	    FacesContext.getCurrentInstance().addMessage(null,
+//	        new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+//	    return "otp.jsf?faces-redirect=true";
+//	}
+//
+//	
+////	public String validateLogin() {
+////	    String email = pharmacy.getEmail();
+////	    String password = pharmacy.getPassword();
+////
+////	    if (pharmacyDao.validatePassword(email, password)) {
+////	        return "home.jsf?faces-redirect=true";
+////	    }
+////
+////	    if (pharmacyDao.validateTempPassword(email, password)) {
+////	        return "resetPassword.jsf?faces-redirect=true";
+////	    }
+////
+////	    FacesContext.getCurrentInstance().addMessage(null,
+////	        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", null));
+////	    return null;
+////	}
+//
+//	public String validateLogin() {
+//	    String email = pharmacy.getEmail();
+//	    String password = pharmacy.getPassword();
+//
+//	    if (pharmacyDao.validatePassword(email, password)) {
+//	        Pharmacy found = pharmacyDao.getPharmacyByEmail(email);
+//
+//	        if (!"Active".equalsIgnoreCase(found.getStatus())) {
+//	            FacesContext.getCurrentInstance().addMessage(null,
+//	                new FacesMessage(FacesMessage.SEVERITY_WARN,
+//	                    "Account not activated. Please wait for admin approval.", null));
+//	            return null;
+//	        }
+//
+//	        return "home.jsf?faces-redirect=true";
+//	    }
+//
+//	    if (pharmacyDao.validateTempPassword(email, password)) {
+//	        return "login.jsf?faces-redirect=true";
+//	    }
+//
+//	    FacesContext.getCurrentInstance().addMessage(null,
+//	        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", null));
+//	    return null;
+//	}
+//
+//	
+//	public String validateTempPassword() {
+//	    String email = pharmacy.getEmail();
+//	    String password = pharmacy.getPassword();
+//
+//	    boolean isValid = pharmacyDao.validateTempPassword(email, password);
+//
+//	    if (isValid) {
+//	        return "resetPassword.jsf?faces-redirect=true";
+//	    } else {
+//	        FacesContext.getCurrentInstance().addMessage(null,
+//	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid password. Please check your email.", null));
+//	        return null;
+//	    }
+//	}
+//
+//
+//
+////	public String generatePassword(String email, int otp) {
+////	     pharmacyDao.generatePassword(email, otp);
+////	     return "validatePass.jsf?faces-redirect=true";
+////	}
+////	
+//	
+//	public String generatePassword(String email, int otp) {
+//	    String result = pharmacyDao.generatePassword(email, otp);
+//
+//	    if (result.contains("OTP verified")) {
+//	        return "validatePass.jsf?faces-redirect=true";
+//	    } else {
+//	        FacesContext.getCurrentInstance().addMessage(null,
+//	            new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+//	        return null;
+//	    }
+//	}
+//
+//	
+////	public String updatePassword(String email, String pwd) {
+////		return pharmacyDao.updatePassword(email, pwd);
+////	}
+//	public String updatePassword(String email, String pwd) {
+//	    String result = pharmacyDao.updatePassword(email, pwd);
+//	    if ("Pharmacy Updated Successfully".equals(result)) {
+//	        // Redirect to login page after successful password update
+//	        return "login.jsf?faces-redirect=true";
+//	    } else {
+//	        FacesContext.getCurrentInstance().addMessage(null,
+//	            new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+//	        // Stay on resetPassword page on failure
+//	        return null;
+//	    }
+//	}
+//
+//}
+//
+
+package com.java.test.controller;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import com.java.test.dao.PharmacyDao;
+import com.java.test.model.Pharmacy;
+import com.java.test.model.PharmacyOTP;
+
+public class PharmacyController {
+
+    private PharmacyDao pharmacyDao;
+    private Pharmacy pharmacy;
+    private PharmacyOTP pharmacyOTP;
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public PharmacyOTP getPharmacyOTP() {
+        return pharmacyOTP;
+    }
+
+    public void setPharmacyOTP(PharmacyOTP pharmacyOTP) {
+        this.pharmacyOTP = pharmacyOTP;
+    }
+
+    public PharmacyDao getPharmacyDao() {
+        return pharmacyDao;
+    }
+
+    public void setPharmacyDao(PharmacyDao pharmacyDao) {
+        this.pharmacyDao = pharmacyDao;
+    }
+
+    public String registerPharmacy() {
+        String result = pharmacyDao.addPharmacy(pharmacy);
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+        return "otp.jsf?faces-redirect=true";
+    }
+
+    public String verifyOtpAndRedirect() {
+        String message = pharmacyDao.verifyOtp(pharmacy.getEmail(), pharmacyOTP.getOtpCode());
+        if (message.contains("verified")) {
+            return "resetPassword.xhtml?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
+            return null;
+        }
+    }
+
+
+    public String updatePassword() {
+        String result = pharmacyDao.updatePassword(pharmacy.getEmail(), pharmacy.getPassword());
+        if ("Password updated successfully.".equals(result)) {
+            return "login.jsf?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+            return null;
+        }
+    }
+
+    public String resendOtp() {
+        String result = pharmacyDao.resendOtp(pharmacy.getEmail());
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+        return null;
+    }
+
+    public String validateLogin() {
+        if (pharmacyDao.validatePassword(pharmacy.getEmail(), pharmacy.getPassword())) {
+            Pharmacy found = pharmacyDao.getPharmacyByEmail(pharmacy.getEmail());
+            if (!"Active".equalsIgnoreCase(found.getStatus())) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Account not activated. Please wait for admin approval.", null));
+                return null;
+            }
+            return "home.jsf?faces-redirect=true";
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null,
+            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", null));
+        return null;
+    }
+}
+	

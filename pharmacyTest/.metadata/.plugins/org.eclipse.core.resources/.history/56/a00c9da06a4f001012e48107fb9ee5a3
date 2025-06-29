@@ -1,0 +1,29 @@
+//package com.java.test.dao;
+//
+//import com.java.test.model.Pharmacy;
+//
+//public interface PharmacyDao {
+//
+//	String addPharmacy(Pharmacy pharmacy);
+//	
+//	String generatePassword(String email , int otp);
+//	
+//	boolean validatePassword(String email, String password);
+//	
+//	String updatePassword(String email, String pwd);
+//	public boolean validateTempPassword(String email, String password);
+//}
+
+
+package com.java.test.dao;
+
+import com.java.test.model.Pharmacy;
+
+public interface PharmacyDao {
+    String addPharmacy(Pharmacy pharmacy);
+    String generatePassword(String email, int otp);
+    String updatePassword(String email, String pwd);
+    String resendOtp(String email);
+    boolean validatePassword(String email, String password);
+    Pharmacy getPharmacyByEmail(String email);
+}

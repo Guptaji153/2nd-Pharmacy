@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\javaTraining\pharmacyTest\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+387099831.index
+2775340379.index
+2052874563.index
+4159551939.index
+2703639372.index
+1108073470.index

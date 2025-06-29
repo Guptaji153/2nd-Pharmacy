@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.java.test.model.Pharmacy" table="Pharmacy">
+
+        <id name="pharmacyId" column="pharmacy_id" type="string">
+            <generator class="assigned" />
+        </id>
+
+        <property name="pharmacyName" column="pharmacy_name" />
+
+        <property name="contactNo" column="contact_no" />
+        <property name="email" column="email" />
+        <property name="password" column="password" />
+        <property name="createdAt" column="created_at" insert ="false" update = "false" />
+        <property name="gstNo" column="GST_NUMBER" type="string"/>
+        
+        <property name="addressLine1" column="address_line1" />
+        <property name="pinCode" column="pin_code" />
+        <property name="state" column="state" />
+        <property name="city" column="city" />
+        <property name="licenseNo" column="license_no" />
+        <property name="status" column="status" />
+
+        <!-- New owner-specific fields -->
+        <property name="firstName" column="first_name" />
+        <property name="middleName" column="middle_name" />
+        <property name="lastName" column="last_name" />
+        <property name="gender" column="gender" />
+        <property name="ownerMobile" column="owner_mobile" />
+        <property name="ownerEmail" column="owner_email" />
+        <property name="aadhar" column="aadhar" />
+        <property name="ownerAddress" column="owner_address" />
+
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0" metadata-complete="false">
+    
+    
+    <managed-bean>
+    <managed-bean-name>pharmacy</managed-bean-name>
+    <managed-bean-class>com.java.test.model.Pharmacy</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+        <managed-bean>
+    <managed-bean-name>pharmacyOTP</managed-bean-name>
+    <managed-bean-class>com.java.test.model.PharmacyOTP</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+    <managed-bean-name>pharmacyDao</managed-bean-name>
+    <managed-bean-class>com.java.test.dao.impl.PharmacyDaoImpl</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+    <managed-bean-name>controller</managed-bean-name>
+    <managed-bean-class>com.java.test.controller.PharmacyController</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    <managed-property>
+    <property-name>pharmacy</property-name>
+    <property-class>com.java.test.model.Pharmacy</property-class>
+    <value>#{pharmacy}</value>
+    </managed-property> 
+       <!--  
+    <managed-property>
+    <property-name>pharmacyOTP</property-name>
+    <property-class>com.java.test.model.PharmacyOTP</property-class>
+    <value>#{pharmacyOTP}</value>
+    </managed-property>  
+      -->
+    <managed-property>
+    <property-name>pharmacyDao</property-name>
+    <property-class>com.java.test.dao.impl.PharmacyDaoImpl</property-class>
+    <value>#{pharmacyDao}</value>
+    </managed-property>
+    
+    
+    </managed-bean>
+    
+    
+</faces-config>

@@ -1,0 +1,70 @@
+package com.java.test.controller;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import com.java.test.dao.impl.PharmacyDaoImpl;
+import com.java.test.model.Pharmacy;
+import com.java.test.model.PharmacyOTP;
+
+public class PharmacyController {
+
+    private PharmacyDaoImpl pharmacyDao;
+    private Pharmacy pharmacy;
+    private PharmacyOTP pharmacyOTP;
+
+    public PharmacyDaoImpl getPharmacyDao() {
+        return pharmacyDao;
+    }
+
+    public void setPharmacyDao(PharmacyDaoImpl pharmacyDao) {
+        this.pharmacyDao = pharmacyDao;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public PharmacyOTP getPharmacyOTP() {
+        return pharmacyOTP;
+    }
+
+    public void setPharmacyOTP(PharmacyOTP pharmacyOTP) {
+        this.pharmacyOTP = pharmacyOTP;
+    }
+
+    public String registerPharmacy() {
+        String result = pharmacyDao.addPharmacy(pharmacy);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+        return "otp.jsf?faces-redirect=true"; // redirect to OTP page after registration
+    }
+
+    public String verifyOtp() {
+        boolean verified = pharmacyDao.verifyOtp(pharmacy.getPharmacyId(), pharmacyOTP.getOtpCode());
+        if (verified) {
+            return "resetPassword.jsf?faces-redirect=true"; // redirect to reset password page
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid OTP. Please try again.", null));
+            return null;
+        }
+    }
+
+    public String updatePassword() {
+        String result = pharmacyDao.updatePassword(pharmacy.getEmail(), pharmacy.getPassword());
+        if ("Pharmacy Updated Successfully".equals(result)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Password updated. You can now login.", null));
+            return "login.jsf?faces-redirect=true"; // redirect to login page
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+            return null;
+        }
+    }
+}

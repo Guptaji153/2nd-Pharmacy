@@ -1,0 +1,19 @@
+package com.java.test.dao;
+
+import com.java.test.model.Pharmacy;
+
+public interface PharmacyDao {
+
+    // Adds a new pharmacy record and returns a status message
+    String addPharmacy(Pharmacy pharmacy);
+
+    // Verifies the OTP for a given email and OTP code, returns status message
+    String verifyOtp(String email, int otp);
+
+    // Validates the user's password for login
+    boolean validatePassword(String email, String password);
+
+    // Updates the password for the given email, returns status message
+    String updatePassword(String email, String pwd);
+
+}
