@@ -99,7 +99,18 @@
     <managed-bean-class>com.infinite.jsf.pharmacy.daoImpl.PharmacyDaoImpl</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-    
+       <managed-bean>
+    <managed-bean-name>medicinesDao</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.daoImpl.MedicinesDaoImpl</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+       <managed-bean>
+    <managed-bean-name>equipmentDao</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.daoImpl.EquipmentDaoImpl</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+       <!-- controller -->
     <managed-bean>
     <managed-bean-name>controller</managed-bean-name>
     <managed-bean-class>com.infinite.jsf.pharmacy.controller.PharmacyController</managed-bean-class>
@@ -110,6 +121,9 @@
     <value>#{pharmacy}</value>
     </managed-property> 
 
+
+
+
     <managed-property>
     <property-name>pharmacyDao</property-name>
     <property-class>com.infinite.jsf.pharmacy.daoImpl.PharmacyDaoImpl</property-class>
@@ -119,5 +133,83 @@
     
     </managed-bean>
     
+    <managed-bean>
+    <managed-bean-name>viewController</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.controller.ViewStocksController</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    
+    <managed-property>
+    <property-name>medicinesDao</property-name>
+    <property-class>com.infinite.jsf.pharmacy.daoImpl.MedicinesDaoImpl</property-class>
+    <value>#{medicinesDao}</value>
+</managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+    <managed-bean-name>viewEquipmentController</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.controller.ViewEquipmentController</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    
+        <managed-property>
+    <property-name>equipmentDao</property-name>
+    <property-class>com.infinite.jsf.pharmacy.daoImpl.EquipmentDaoImpl</property-class>
+    <value>#{equipmentDao}</value>
+</managed-property>
+    </managed-bean>
+           
+       <!-- server Side -->
+       
+    <managed-bean>
+    <managed-bean-name>ejbMedicine</managed-bean-name>
+    <managed-bean-class>com.infinite.ejb.pharmacy.model.Medicines</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+    <managed-bean-name>ejbEquipment</managed-bean-name>
+    <managed-bean-class>com.infinite.ejb.pharmacy.model.Equipment</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+     <managed-bean>
+    <managed-bean-name>pharmacyEjbImpl</managed-bean-name>
+    <managed-bean-class>com.infinite.ejb.pharmacy.beanImpl.PharmacyEjbImpl</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <!-- server controller -->
+    
+    <managed-bean>
+    <managed-bean-name>ejbController</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.controller.UpdateMedicinesController</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    
+    <managed-property>
+    <property-name>ejbMedicine</property-name>
+    <property-class>com.infinite.ejb.pharmacy.model.Medicines</property-class>
+    <value>#{ejbMedicine}</value>
+    </managed-property>
+ 
+    <managed-property>
+    <property-name>pharmacyEjbImpl</property-name>
+    <property-class>com.infinite.ejb.pharmacy.beanImpl.PharmacyEjbImpl</property-class>
+    <value>#{pharmacyEjbImpl}</value>
+    </managed-property>
+    
+    </managed-bean>
+    
+    <managed-bean>
+    <managed-bean-name>ejbEquipmentController</managed-bean-name>
+    <managed-bean-class>com.infinite.jsf.pharmacy.controller.UpdateEquipmentsController</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+    <property-name>ejbEquipment</property-name>
+    <property-class>com.infinite.ejb.pharmacy.model.Equipment</property-class>
+    <value>#{ejbEquipment}</value>
+    </managed-property>
+    <managed-property>
+    <property-name>pharmacyEjbImpl</property-name>
+    <property-class>com.infinite.ejb.pharmacy.beanImpl.PharmacyEjbImpl</property-class>
+    <value>#{pharmacyEjbImpl}</value>
+    </managed-property>
+    </managed-bean>
 
 </faces-config>

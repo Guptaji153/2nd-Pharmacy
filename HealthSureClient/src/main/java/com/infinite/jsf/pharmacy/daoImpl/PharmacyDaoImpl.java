@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.infinite.jsf.pharmacy.dao.PharmacyDao;
+import com.infinite.jsf.pharmacy.model.Passwords;
 import com.infinite.jsf.pharmacy.model.Pharmacy;
 import com.infinite.jsf.pharmacy.model.PharmacyOtp;
 import com.infinite.jsf.pharmacy.model.Purpose;
@@ -199,6 +200,13 @@ public class PharmacyDaoImpl implements PharmacyDao {
             // Step 2: Update the pharmacy's permanent password
             pharmacy.setPassword(pwd);
             session.update(pharmacy);
+            
+            //saving in passwords table also
+            Passwords passRecords = new Passwords();
+            passRecords.setPharmacy(pharmacy);
+            passRecords.setPassword(pwd);
+            session.save(passRecords);
+            
 
             // Step 3: Get the latest verified OTP (if any)
             Query otpQuery = session.createQuery(
@@ -240,6 +248,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
         return (Pharmacy) query.uniqueResult();
     }
     
+    //resend otp..
     public String resendOtp(String email) {
         session = SessionHelper.getSessionFactory().openSession();
 
@@ -281,11 +290,12 @@ public class PharmacyDaoImpl implements PharmacyDao {
 
         return "New OTP sent to your email.";
     }
-// checking for duplicate Aadhar and GST
+// checking for duplicate Aadhar, GST,pharmacyEmail, OwnerEmail, PharmacyPhone, OwnerPhone
     public boolean isAadharExists(String aadhar) {
         session = SessionHelper.getSessionFactory().openSession();
         Query query = session.createQuery("from Pharmacy where aadhar = :aadhar");
         query.setParameter("aadhar", aadhar);
+        query.setMaxResults(1);
         return query.uniqueResult() != null;
     }
 
@@ -293,12 +303,38 @@ public class PharmacyDaoImpl implements PharmacyDao {
         session = SessionHelper.getSessionFactory().openSession();
         Query query = session.createQuery("from Pharmacy where gstNo = :gst");
         query.setParameter("gst", gstNo);
+        query.setMaxResults(1);
         return query.uniqueResult() != null;
     }
 
-
-
-
+    public boolean isEmailExist(String email) {
+    	session = SessionHelper.getSessionFactory().openSession();
+    	Query query = session.createQuery("from Pharmacy where email = :email");
+    	query.setParameter("email", email);
+    	query.setMaxResults(1);
+    	return query.uniqueResult() != null;
+    }
+    public boolean isOwnerEmailExist(String ownerEmail) {
+    	session = SessionHelper.getSessionFactory().openSession();
+    	Query query = session.createQuery("from Pharmacy where ownerEmail = :ownerEmail");
+    	query.setParameter("ownerEmail", ownerEmail);
+    	query.setMaxResults(1);
+    	return query.uniqueResult() != null;
+    }
+    public boolean isOwnerMobileExist(String ownerMobile) {
+    	session = SessionHelper.getSessionFactory().openSession();
+    	Query query = session.createQuery("from Pharmacy where ownerMobile = :ownerMobile");
+    	query.setParameter("ownerMobile", ownerMobile);
+    	query.setMaxResults(1);
+    	return query.uniqueResult() != null;
+    }
+    public boolean isPharmacyMobileExist(String PharmacyMobile) {
+    	session = SessionHelper.getSessionFactory().openSession();
+    	Query query = session.createQuery("from Pharmacy where contactNo = :contactNo");
+    	query.setParameter("contactNo", PharmacyMobile);
+    	query.setMaxResults(1);
+    	return query.uniqueResult() != null;
+    }
 	
 	
 }

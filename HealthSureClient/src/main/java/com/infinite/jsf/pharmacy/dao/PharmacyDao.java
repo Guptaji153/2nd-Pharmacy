@@ -7,11 +7,12 @@ public interface PharmacyDao {
 	String addPharmacy(Pharmacy pharmacy);
 	
 	String generatePassword(String email , int otp);
+	public boolean validateTempPassword(String email, String password);
 	
 	boolean validatePassword(String email, String password);
 	
 	String updatePassword(String email, String pwd);
-	public boolean validateTempPassword(String email, String password);
+	
 }
 
 

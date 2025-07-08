@@ -15,13 +15,13 @@
     <jsp:include page="/navbar/NavPharmacy.jsp" />
     <div class="container">
         <h1 class="heading-primary">
-            Welcome, <h:outputText value="#{sessionScope.provider_name}" />
+            Welcome, <h:outputText value="#{sessionScope.pharmacy_name}" />
         </h1>
 
         <div class="details-box">
-            <p><strong>Provider ID:</strong> <h:outputText value="#{sessionScope.provider_id}" /></p>
-            <p><strong>Hospital Name:</strong> <h:outputText value="#{sessionScope.hospital_name}" /></p>
-            <p><strong>Email:</strong> <h:outputText value="#{sessionScope.email}" /></p>
+            <p><strong>Pharmacy Id:</strong> <h:outputText value="#{sessionScope.pharmacy_id}" /></p>
+            <p><strong>Pharmacy Name:</strong> <h:outputText value="#{sessionScope.pharmacy_name}" /></p>
+            <p><strong>Pharmacy Email:</strong> <h:outputText value="#{sessionScope.email}" /></p>
             <p><strong>Address:</strong> <h:outputText value="#{sessionScope.address}" /></p>
             <p><strong>City:</strong> <h:outputText value="#{sessionScope.city}" /></p>
             <p><strong>State:</strong> <h:outputText value="#{sessionScope.state}" /></p>

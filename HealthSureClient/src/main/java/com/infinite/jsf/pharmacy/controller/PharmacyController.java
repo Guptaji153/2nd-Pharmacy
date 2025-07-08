@@ -4,7 +4,6 @@ package com.infinite.jsf.pharmacy.controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
 import com.infinite.jsf.pharmacy.daoImpl.PharmacyDaoImpl;
 import com.infinite.jsf.pharmacy.model.Pharmacy;
 
@@ -52,9 +51,17 @@ public class PharmacyController {
             context.addMessage("form:firstName", new FacesMessage(FacesMessage.SEVERITY_ERROR, "First name is required", null));
             isValid = false;
         }
+        if(!isAlphabetic(pharmacy.getFirstName())) {
+        	context.addMessage("form:firstName", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Special symbol is not allowed", null));
+            isValid = false;
+        }
 
         if(pharmacy.getLastName() == null || pharmacy.getLastName().trim().isEmpty()) {
             context.addMessage("form:lastName", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Last name is required", null));
+            isValid = false;
+        }
+        if(!isAlphabetic(pharmacy.getLastName())) {
+        	context.addMessage("form:lastName", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Special symbol is not allowed", null));
             isValid = false;
         }
 
@@ -63,11 +70,15 @@ public class PharmacyController {
             isValid = false;
         }
 
+        if (pharmacyDao.isOwnerMobileExist(pharmacy.getOwnerMobile())) {
+            context.addMessage("form:ownerMobile", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Owner Mobile already registered.", null));
+            isValid = false;
+        }
         if (pharmacy.getOwnerMobile() == null || !pharmacy.getOwnerMobile().matches("[1-9]\\d{9}")) {
             context.addMessage("form:ownerMobile", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mobile number must be 10 digits.", null));
             isValid = false;
         }
-
+      
         
         
         if (pharmacy.getOwnerAddress() == null || pharmacy.getOwnerAddress().trim().isEmpty()) {
@@ -89,6 +100,11 @@ public class PharmacyController {
             context.addMessage("form:ownerEmail", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid owner email.", null));
             isValid = false;
         }
+        
+        if (pharmacyDao.isOwnerEmailExist(pharmacy.getOwnerEmail())) {
+            context.addMessage("form:ownerEmail", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Oner email allready register registered.", null));
+            isValid = false;
+        }
 
         if (!isValid) {
             context.validationFailed();
@@ -103,7 +119,7 @@ public class PharmacyController {
         FacesContext context = FacesContext.getCurrentInstance();
         boolean isValid = true;
 
-        if (pharmacy.getPharmacyName() == null || pharmacy.getPharmacyName().length() < 5 || pharmacy.getPharmacyName().length() > 10) {
+        if (pharmacy.getPharmacyName() == null || pharmacy.getPharmacyName().length() < 5 || pharmacy.getPharmacyName().length() > 20) {
             context.addMessage("form:pharmacyName", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy Name must be 5 to 10 characters.", null));
             isValid = false;
         }
@@ -128,9 +144,17 @@ public class PharmacyController {
             context.addMessage("form:email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
             isValid = false;
         }
+      if (pharmacyDao.isEmailExist(pharmacy.getEmail())) {
+      context.addMessage("form:email", new FacesMessage(FacesMessage.SEVERITY_ERROR, " email allready registered.", null));
+      isValid = false;
+  }
 
         if (pharmacy.getContactNo() == null || !pharmacy.getContactNo().matches("[1-9]\\d{9}")) {
             context.addMessage("form:contactNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact Number must be 10 digits.", null));
+            isValid = false;
+        }
+        if (pharmacyDao.isPharmacyMobileExist(pharmacy.getContactNo())) {
+            context.addMessage("form:contactNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy Mobile already registered.", null));
             isValid = false;
         }
 
@@ -143,9 +167,17 @@ public class PharmacyController {
             context.addMessage("form:city", new FacesMessage(FacesMessage.SEVERITY_ERROR, "City is required.", null));
             isValid = false;
         }
+        if(!isAlphabetic(pharmacy.getCity())) {
+        	context.addMessage("form:city", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Special symbol is not allowed", null));
+            isValid = false;
+        }
 
         if (pharmacy.getState() == null || pharmacy.getState().trim().isEmpty()) {
             context.addMessage("form:state", new FacesMessage(FacesMessage.SEVERITY_ERROR, "State is required.", null));
+            isValid = false;
+        }
+        if(!isAlphabetic(pharmacy.getState())) {
+        	context.addMessage("form:state", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Special symbol is not allowed", null));
             isValid = false;
         }
 
@@ -159,6 +191,7 @@ public class PharmacyController {
             context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST number already registered.", null));
             isValid = false;
         }
+  
         if (!isValid) {
             context.validationFailed();
             return null;
@@ -172,6 +205,9 @@ public class PharmacyController {
         
     }
 
+    private boolean isAlphabetic(String input) {
+    	return input != null && input.matches("^[a-zA-Z]+$");
+    }
 
     private boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -340,5 +376,6 @@ public class PharmacyController {
         }
 
     }
-
+    
+   
 }
