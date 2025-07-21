@@ -1,10 +1,8 @@
 package com.infinite.jsf.pharmacy.daoImpl;
 
 import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
-
 import com.infinite.jsf.pharmacy.dao.EquipmentDao;
 import com.infinite.jsf.pharmacy.model.Equipment;
 import com.infinite.jsf.util.SessionHelper;

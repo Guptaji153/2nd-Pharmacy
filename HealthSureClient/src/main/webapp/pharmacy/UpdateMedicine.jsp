@@ -5,82 +5,71 @@
 <html>
 <head>
     <title>Update Medicine</title>
+     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/UpdateMedicine.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-        }
-        h2 {
-            text-align: center;
-            color: #007bff;
-        }
-        .form-container {
-            width: 50%;
-            margin: auto;
-            background-color: #ffffff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-        .form-container table {
-            width: 100%;
-        }
-        .form-container td {
-            padding: 10px;
-        }
-        .form-container input[type="text"],
-        .form-container input[type="number"],
-        .form-container input[type="date"] {
-            width: 95%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-container .btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-container .btn:hover {
-            background-color: #218838;
-        }
+
     </style>
 </head>
 <body>
 <f:view>
+<jsp:include page="/navbar/NavPharmacy.jsp" />
+<div class ="top">
     <h2>Update Medicine Details</h2>
 
     <div class="form-container">
-        <h:form>
-            <h:messages globalOnly="true" style="color:red;" />
+        <h:form id="updateForm">
 
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="medicineName" value="Medicine Name:" />
-                <h:inputText id="medicineName" value="#{ejbController.ejbMedicine.medicineName}" required="true" />
+            <!-- Global feedback -->
+            <h:messages globalOnly="true" layout="list" styleClass="message" infoClass="info" errorClass="error" />
 
-                <h:outputLabel for="description" value="Description:" />
-                <h:inputText id="description" value="#{ejbController.ejbMedicine.description}" required="true" />
+            <!-- First Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Medicine Name <span style="color:red">*</span></label>
+                    <h:inputText id="medicineName" value="#{ejbController.ejbMedicine.medicineName}" styleClass="form-input" />
+                    <h:message for="medicineName" styleClass="error" />
+                </div>
 
-                <h:outputLabel for="quantity" value="Quantity In Stock:" />
-                <h:inputText id="quantity" value="#{ejbController.ejbMedicine.quantityInStock}" required="true" />
+                <div class="form-group">
+                    <label class="form-label">Description <span style="color:red">*</span></label>
+                    <h:inputText id="description" value="#{ejbController.ejbMedicine.description}" styleClass="form-input" />
+                    <h:message for="description" styleClass="error" />
+                </div>
+            </div>
 
-                <h:outputLabel for="unitPrice" value="Unit Price:" />
-                <h:inputText id="unitPrice" value="#{ejbController.ejbMedicine.unitPrice}" required="true" />
+            <!-- Second Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Quantity In Stock <span style="color:red">*</span></label>
+                    <h:inputText id="quantity" value="#{ejbController.ejbMedicine.quantityInStock}" styleClass="form-input" />
+                    <h:message for="quantity" styleClass="error" />
+                </div>
 
-                <h:outputLabel for="purpose" value="Purpose:" />
-                <h:inputText id="purpose" value="#{ejbController.ejbMedicine.purpose}" required="true" />
-            </h:panelGrid>
+                <div class="form-group">
+                    <label class="form-label">Unit Price <span style="color:red">*</span></label>
+                    <h:inputText id="unitPrice" value="#{ejbController.ejbMedicine.unitPrice}" styleClass="form-input" />
+                    <h:message for="unitPrice" styleClass="error" />
+                </div>
+            </div>
 
-            <br/>
+            <!-- Third Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Purpose <span style="color:red">*</span></label>
+                    <h:inputText id="purpose" value="#{ejbController.ejbMedicine.purpose}" styleClass="form-input" />
+                    <h:message for="purpose" styleClass="error" />
+                </div>
+            </div>
+			<div class="center-container">
             <h:commandButton value="Update Medicine"
                              action="#{ejbController.updateMedicineDetails}"
                              styleClass="btn" />
+			</div>
         </h:form>
     </div>
+    </div>
 </f:view>
+
+<jsp:include page="/footer/Footer.jsp"/>
 </body>
 </html>

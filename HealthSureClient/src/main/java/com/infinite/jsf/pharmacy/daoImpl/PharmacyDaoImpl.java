@@ -13,7 +13,7 @@ import com.infinite.jsf.pharmacy.model.Purpose;
 import com.infinite.jsf.pharmacy.model.Status;
 import com.infinite.jsf.util.MailSend;
 import com.infinite.jsf.util.SessionHelper;
-
+import org.apache.log4j.Logger;
 
 public class PharmacyDaoImpl implements PharmacyDao {
 
@@ -24,6 +24,8 @@ public class PharmacyDaoImpl implements PharmacyDao {
     }
 
     public static String getNextPharmacyId(Session session) {
+    	final Logger log = Logger.getLogger("com.infinite.jsf.pharmacy.daoImpl.PharmacyDaoImpl");
+    	log.info("Pharmacy id generated");
         String prefix = "PHM";
         String hql = "select max(pharmacyId) from Pharmacy";
         String maxId = (String) session.createQuery(hql).uniqueResult();
@@ -37,59 +39,62 @@ public class PharmacyDaoImpl implements PharmacyDao {
 // add/register pharmacy
     @Override
 	public String addPharmacy(Pharmacy pharmacy) {
-		session = SessionHelper.getSessionFactory().openSession();
-        Transaction trans = session.beginTransaction();
+    	 Session session = SessionHelper.getSessionFactory().openSession();
+    	    Transaction trans = null;
 
-        String nextId = getNextPharmacyId(session);
-        pharmacy.setPharmacyId(nextId);
-        pharmacy.setStatus("Pending");
+    	    try {
+    	        trans = session.beginTransaction();
+    	        String nextId = getNextPharmacyId(session);
+    	        System.out.println("pharmacy id" + nextId);
+    	        pharmacy.setPharmacyId(nextId);
+    	        pharmacy.setStatus("Pending");
+
+    	        session.save(pharmacy);
+                
+    	        int code = generateOtp();
+    	        Timestamp now = new Timestamp(System.currentTimeMillis());
+    	        Timestamp expiry = new Timestamp(now.getTime() + 2 * 60 * 1000);
+
+    	        PharmacyOtp otp = new PharmacyOtp();
+    	        otp.setOtpCode(String.valueOf(code));
+    	        otp.setStatus(Status.PENDING);
+    	        otp.setPurpose(Purpose.REGISTER);
+    	        otp.setPharmacyId(pharmacy.getPharmacyId());
+    	        otp.setCreatedAt(now);
+    	        otp.setExpiresAt(expiry);
+    	        session.save(otp);
+    	        trans.commit();
+    	        String subject = "Hi " + pharmacy.getPharmacyName() + ", your account is created";
+    	        String body = "Your OTP Code is " + code + ". Please use this to set your password.";
+    	        //String footer ="Best Regards /n HealthSure Pharmacy department";
+    	        MailSend.sendInfo(pharmacy.getEmail(), subject, body);
+
+    	        return "Pharmacy record added and OTP sent via email.";
+
+    	    } catch (Exception e) {
+    	        if (trans != null) trans.rollback();
+
+    	        if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+    	            return "Aadhar or GST already exists";
+    	        }
+    	        e.printStackTrace();
+    	        return "Error occurred while saving pharmacy.";
+    	    } finally {
+    	        session.close();
+    	    }
         
-        //test.....
-        System.out.println("Saving pharmacy: " + pharmacy.getPharmacyId() + " | Owner: " 
-        	    + pharmacy.getFirstName() + " " + pharmacy.getLastName() + " | Pharmacy: " + pharmacy.getPharmacyName());
-
-        //some time inserction fail 
-        try {
-        session.save(pharmacy);
-        trans.commit();
-        }catch(Exception e) {
-        	if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-        		return "Aadhar or GST allready exist";
-        	}
-        }
-        int code = generateOtp();
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        Timestamp expiry = new Timestamp(now.getTime() + 2 * 60 * 1000);
-
-        PharmacyOtp otp = new PharmacyOtp();
-        otp.setOtpCode(String.valueOf(code));
-        otp.setStatus(Status.PENDING);
-        otp.setPurpose(Purpose.REGISTER);
-        otp.setPharmacyId(pharmacy.getPharmacyId());
-        otp.setCreatedAt(now);
-        otp.setExpiresAt(expiry);
-
-        trans = session.beginTransaction();
-        session.save(otp);
-        trans.commit();
-
-        String subject = "Hi " + pharmacy.getPharmacyName() + ", your account is created";
-        String body = "Your OTP Code is " + code + ". Please use this to set your password.";
-        MailSend.sendInfo(pharmacy.getEmail(), subject, body);
-
-        return "Pharmacy record added and OTP sent via email.";
 	}
 
 
-    public String getAlphaNumericString() {
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
-        StringBuilder sb = new StringBuilder(10);
-        for (int i = 0; i < 10; i++) {
-            int index = (int) (AlphaNumericString.length() * Math.random());
-            sb.append(AlphaNumericString.charAt(index));
-        }
-        return sb.toString();
-    }
+//    public String getAlphaNumericString() {
+//        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
+//        StringBuilder sb = new StringBuilder(10);
+//        for (int i = 0; i < 10; i++) {
+//            int index = (int) (AlphaNumericString.length() * Math.random());
+//            sb.append(AlphaNumericString.charAt(index));
+//        }
+//        return sb.toString();
+//    }
     
     // otp generate function
     @Override
@@ -103,7 +108,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
 	            return "No pharmacy found with the provided email.";
 	        }
 
-	        
+	        //testing....
 	        System.out.println("Validating OTP:");
 	        System.out.println("Email: " + email);
 	        System.out.println("Pharmacy ID: " + pharmacy.getPharmacyId());
@@ -127,28 +132,26 @@ public class PharmacyDaoImpl implements PharmacyDao {
 	                objOtp.setStatus(Status.EXPIRED);  
 	                session.update(objOtp);
 	                tx.commit();
-
 	                return "Otp expired. Please resend OTP.";
 	            }
 
 	            // OTP is valid and not expired, proceed
-	            String pwd = getAlphaNumericString();
+	           // String pwd = getAlphaNumericString();
 	            objOtp.setStatus(Status.VERIFIED);
-	            objOtp.setNewPassword(pwd);
+	           // objOtp.setNewPassword(pwd);
 
 	            Transaction trans = session.beginTransaction();
 	            session.update(objOtp);
 	            trans.commit();
 
-	            String body = "Your One-Time Password for Login is: " + pwd;
-	            MailSend.sendInfo(email, "One Time Password", body);
+	           // String body = "Your One-Time Password for Login is: " + pwd;
+	           // MailSend.sendInfo(email, "One Time Password", body);
 
 	            return "Otp verified New password has been sent to your email.";
 	        }
 
 	        return "Invalid Otp or email.";
 	}
-
 
 	@Override
 	public boolean validatePassword(String email, String password) {
@@ -159,10 +162,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
 
         return pharmacy != null && pharmacy.getPassword().equals(password);
 	}
- 
-    
-    
-
+     
     public boolean validateTempPassword(String email, String password) {
         session = SessionHelper.getSessionFactory().openSession();
 
@@ -181,10 +181,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
         return otp != null && otp.getNewPassword().equals(password);
     }
 
-  
-   
-
-	@Override
+  	@Override
 	public String updatePassword(String email, String pwd) {
 		session = SessionHelper.getSessionFactory().openSession();
         Transaction tx = null;
@@ -208,7 +205,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
             session.save(passRecords);
             
 
-            // Step 3: Get the latest verified OTP (if any)
+            // Step 3: Get the latest verified OTP 
             Query otpQuery = session.createQuery(
                 "from PharmacyOtp where pharmacyId = :pharmacyId and status = :status order by createdAt desc"
             );
@@ -219,10 +216,10 @@ public class PharmacyDaoImpl implements PharmacyDao {
             PharmacyOtp otp = (PharmacyOtp) otpQuery.uniqueResult();
 
             if (otp != null) {
-                // Step 4: Delete that OTP record (optional, for cleanup)
+                // Step 4: Delete that OTP record 
                 session.delete(otp);
 
-                // Optional: You could also delete all expired and pending OTPs
+                //   deleting all expired and pending OTPs
                 Query cleanUp = session.createQuery(
                     "delete from PharmacyOtp where pharmacyId = :pharmacyId and status != :status"
                 );
@@ -238,10 +235,7 @@ public class PharmacyDaoImpl implements PharmacyDao {
         }
 	}
     
-
-    
-
-    public Pharmacy getPharmacyByEmail(String email) {
+  	    public Pharmacy getPharmacyByEmail(String email) {
         session = SessionHelper.getSessionFactory().openSession();
         Query query = session.createQuery("from Pharmacy where email = :email");
         query.setParameter("email", email);
@@ -335,8 +329,13 @@ public class PharmacyDaoImpl implements PharmacyDao {
     	query.setMaxResults(1);
     	return query.uniqueResult() != null;
     }
-	
+    
+    public boolean isPharmacyLicenceExist(String PharmacyLicence) {
+    	session = SessionHelper.getSessionFactory().openSession();
+    	Query query = session.createQuery("from Pharmacy where licenseNo = :licenseNo");
+    	query.setParameter("licenseNo", PharmacyLicence);
+    	query.setMaxResults(1);
+    	return query.uniqueResult() != null;
+    }
 	
 }
-
-

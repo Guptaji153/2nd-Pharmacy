@@ -1,7 +1,5 @@
 package com.infinite.jsf.pharmacy.controller;
 
-
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import com.infinite.jsf.pharmacy.daoImpl.PharmacyDaoImpl;
@@ -128,14 +126,15 @@ public class PharmacyController {
             context.addMessage("form:licenseNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "License Number must be of 12 alphanumeric format [AA/0000/00000/A.]", null));
             isValid = false;
         }
+        
 
 //        if (pharmacy.getGstNo() == null || !pharmacy.getGstNo().matches("[0-9A-Z]{15}")) {
 //            context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST Number must be 15 alphanumeric characters formate [0-9]-2d,[A-Z and  0-9].", null));
 //            isValid = false;
 //        }
 
-        if (pharmacy.getGstNo() == null || !pharmacy.getGstNo().matches("[0-9]{2}[0-9A-Z]{10}[0-9]{1}[A-Z]{1}[0-9]{1}")) {
-            context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST Number must be 15 alphanumeric characters formate [0-9]-2d,[A-Z:0-9]-10d,[0-9][A-Z][0-9].", null));
+        if (pharmacy.getGstNo() == null || !pharmacy.getGstNo().matches("[0-9]{2}[0-9A-Z]{10}[0-9]{1}[Z]{1}[0-9]{1}")) {
+            context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST Number must be 15 alphanumeric characters formate [0-9]-2d,[A-Z:0-9]-10d,[0-9][Z][0-9].", null));
             isValid = false;
         }
 
@@ -191,6 +190,10 @@ public class PharmacyController {
             context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST number already registered.", null));
             isValid = false;
         }
+        if (pharmacyDao.isPharmacyLicenceExist(pharmacy.getLicenseNo())) {
+            context.addMessage("form:licenseNo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Licence number already registered.", null));
+            isValid = false;
+        }
   
         if (!isValid) {
             context.validationFailed();
@@ -199,8 +202,13 @@ public class PharmacyController {
         
 
         pharmacy.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        
         String result = pharmacyDao.addPharmacy(pharmacy);
+       // context.getExternalContext().getSessionMap().put("otpemail", pharmacy.getEmail());
+        //context.getExternalContext().getSessionMap().put("pharmacyObj", pharmacy);
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+        context.getExternalContext().getSessionMap().put("otpemail", pharmacy.getEmail());
+        
         return "Otp.jsf?faces-redirect=true";
         
     }
@@ -259,23 +267,23 @@ public class PharmacyController {
     
      // Checks temporary password and redirects to reset
      
-    public String validateTempPassword() {
-    	
-        String email = pharmacy.getEmail();
-        String password = pharmacy.getPassword();
-        
-        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", email);
-
-        boolean isValid = pharmacyDao.validateTempPassword(email, password);
-
-        if (isValid) {
-            return "ResetPasword.jsf?faces-redirect=true";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid password. Please check your email.", null));
-            return null;
-        }
-    }
+//    public String validateTempPassword() {
+//    	
+//        String email = pharmacy.getEmail();
+//        String password = pharmacy.getPassword();
+//        
+//        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", email);
+//
+//        boolean isValid = pharmacyDao.validateTempPassword(email, password);
+//
+//        if (isValid) {
+//            return "ResetPasword.jsf?faces-redirect=true";
+//        } else {
+//            FacesContext.getCurrentInstance().addMessage(null,
+//                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid password. Please check your email.", null));
+//            return null;
+//        }
+//    }
 
     
      // OTP verification and generating temp password
@@ -284,7 +292,7 @@ public class PharmacyController {
         String result = pharmacyDao.generatePassword(email, otp);
 
         if (result.contains("Otp verified")) {
-            return "ValidatePassword.jsf?faces-redirect=true";
+            return "ResetPasword.jsf?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
@@ -332,6 +340,9 @@ public class PharmacyController {
                 "Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.", null));
             return null;
         }
+        if(pharmacy.getPassword() == null) {
+        	context.addMessage(pwd, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords Value is required", null));
+        }
 
         String result = pharmacyDao.updatePassword(email, pwd);
         if ("Pharmacy Updated Successfully".equals(result)) {
@@ -375,6 +386,10 @@ public class PharmacyController {
 
         }
 
+    }
+    
+    public String returnToBack() {
+    	return "AddOwner.jsf?faces-redirect=true";
     }
     
    

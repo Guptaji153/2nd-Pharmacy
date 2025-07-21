@@ -112,6 +112,7 @@
                          style="margin-top: 15px;"
                          onclick="return validateTermsOnly(event);" />
 
+		<h:commandButton id="backBtn" value="Back" action ="#{controller.returnToBack }" styleClass="submit-button" />
         <p style="font-size: 12px; color: #777;">
             Fields marked with <span style="color:red">*</span> are required.
         </p>

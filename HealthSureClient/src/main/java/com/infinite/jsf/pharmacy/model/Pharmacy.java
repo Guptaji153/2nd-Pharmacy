@@ -197,6 +197,18 @@ public class Pharmacy {
 	public void setOwnerAddress(String ownerAddress) {
 		this.ownerAddress = ownerAddress;
 	}
+	@Override
+	public String toString() {
+		return "Pharmacy [pharmacyId=" + pharmacyId + ", createdAt=" + createdAt + ", pharmacyName=" + pharmacyName
+				+ ", contactNo=" + contactNo + ", email=" + email + ", password=" + password + ", state=" + state
+				+ ", city=" + city + ", licenseNo=" + licenseNo + ", status=" + status + ", gstNo=" + gstNo
+				+ ", pinCode=" + pinCode + ", addressLine1=" + addressLine1 + ", firstName=" + firstName
+				+ ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", ownerMobile="
+				+ ownerMobile + ", ownerEmail=" + ownerEmail + ", aadhar=" + aadhar + ", ownerAddress=" + ownerAddress
+				+ ", medicines=" + medicines + ", equipments=" + equipments + ", pharmacists=" + pharmacists
+				+ ", dispensedMedicines=" + dispensedMedicines + ", dispensedEquipments=" + dispensedEquipments
+				+ ", passwords=" + passwords + "]";
+	}
 	
 	
 	

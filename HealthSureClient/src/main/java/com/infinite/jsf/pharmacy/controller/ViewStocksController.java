@@ -10,23 +10,23 @@ import com.infinite.jsf.pharmacy.model.Medicines;
 
 public class ViewStocksController {
 
-	 /**
-     * Medicines
-     */
-    
     private MedicinesDaoImpl medicinesDao;
     private List<Medicines> medicinesList;
-
+    private boolean searchPerformed;
+    public boolean isSearchPerformed() {
+    	return searchPerformed;
+    }
+    
     public void setMedicinesDao(MedicinesDaoImpl medicinesDao) {
         this.medicinesDao = medicinesDao;
     }
 
     public List<Medicines> getMedicinesList() {
-        if (medicinesList == null) {
-           // medicinesList = medicinesDao.getAllMedicines();
-        	String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
-        	medicinesList = medicinesDao.getMedicinesByPharmacyId(pharmacyId);
-        }
+//        if (medicinesList == null) {
+//           // medicinesList = medicinesDao.getAllMedicines();
+//        	String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
+//        	medicinesList = medicinesDao.getMedicinesByPharmacyId(pharmacyId);
+//        }
         return medicinesList;
     }
 
@@ -52,35 +52,6 @@ public class ViewStocksController {
         this.searchMode = searchMode;
     }
 
-    // Search method
-//    public String searchMedicines() {
-//        if (searchText == null || searchText.trim().isEmpty()) {
-//            medicinesList = medicinesDao.getAllMedicines();
-//        } else if ("starts".equals(searchMode)) {
-//            medicinesList = medicinesDao.searchMedicinesStartingWith(searchText);
-//        } else if ("contains".equals(searchMode)) {
-//            medicinesList = medicinesDao.searchMedicinesContaining(searchText);
-//        }
-//        currentPage = 1; // Reset to first page after search
-//        return null;
-//    }
-    
-//    public String searchMedicines() {
-//        String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
-//
-//        if (searchText == null || searchText.trim().isEmpty()) {
-//            medicinesList = medicinesDao.getMedicinesByPharmacyId(pharmacyId);
-//        } else if ("starts".equals(searchMode)) {
-//            medicinesList = medicinesDao.searchMedicinesStartingWith(searchText, pharmacyId);
-//        } else if ("contains".equals(searchMode)) {
-//            medicinesList = medicinesDao.searchMedicinesContaining(searchText, pharmacyId);
-//        }
-//
-//        currentPage = 1; // Reset to first page
-//        return null;
-//    }
-
-
     
     public String searchMedicines() {
         String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
@@ -92,19 +63,22 @@ public class ViewStocksController {
 
         if (searchText == null || searchText.isEmpty()) {
             medicinesList = medicinesDao.getMedicinesByPharmacyId(pharmacyId);
-        } else if ("starts".equals(searchMode)) {
+        } 
+        else if ("starts".equals(searchMode)) {
             medicinesList = medicinesDao.searchMedicinesStartingWith(searchText, pharmacyId);
         } else if ("contains".equals(searchMode)) {
             medicinesList = medicinesDao.searchMedicinesContaining(searchText, pharmacyId);
         }
 
-        currentPage = 1; // Reset to first page
+     // Reset to first page
+        currentPage = 1; 
+        searchPerformed = true;
         return null;
     }
     // page 
  // Pagination Support
     private int currentPage = 1;
-    private int pageSize = 10;
+    private int pageSize = 5;
 
     public int getCurrentPage() {
         return currentPage;
@@ -195,7 +169,7 @@ public class ViewStocksController {
             return ascending ? result : -result;
         });
     }
-// maling expired medicines
+//  expired medicines
     public String getExpiryStyle(Date expiryDate) {
         if (expiryDate != null && expiryDate.before(new Date())) {
             return "color:red; white-space: nowrap;";
@@ -208,4 +182,12 @@ public class ViewStocksController {
     	return "ViewMedicines.jsf?faces-redirect=true";
     }
 	
+    public String resetSearch() {
+    	this.searchText = null;
+    	this.searchMode = "starts";
+    	this.medicinesList = null;
+    	this.currentPage = 1;
+    	this.searchPerformed = false;
+    	return null;
+    }
 }

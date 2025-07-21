@@ -12,16 +12,20 @@ public class ViewEquipmentController {
 
     private EquipmentDaoImpl equipmentDao;
     private List<Equipment> equipmentList;
+    private boolean searchPerformed;
+    public boolean isSearchPerformed(){
+    	return searchPerformed;
+    }
 
     public void setEquipmentDao(EquipmentDaoImpl equipmentDao) {
         this.equipmentDao = equipmentDao;
     }
 
     public List<Equipment> getEquipmentList() {
-        if (equipmentList == null) {
-            String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
-            equipmentList = equipmentDao.getEquipmentByPharmacyId(pharmacyId);
-        }
+//        if (equipmentList == null) {
+//            String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
+//            equipmentList = equipmentDao.getEquipmentByPharmacyId(pharmacyId);
+//        }
         return equipmentList;
     }
 
@@ -58,12 +62,13 @@ public class ViewEquipmentController {
 
         currentPage = 1;
         sortEquipment(); // Re-sort after search
+         searchPerformed = true;
         return null;
     }
 
     // Pagination
     private int currentPage = 1;
-    private int pageSize = 10;
+    private int pageSize = 5;
 
     public int getCurrentPage() {
         return currentPage;
@@ -165,5 +170,14 @@ public class ViewEquipmentController {
 
     public String ViewPharmacyStocks() {
         return "ViewEquipments.jsf?faces-redirect=true";
+    }
+    
+    public String resetSearch() {
+    	this.searchText = null;
+    	this.searchMode = "starts";
+    	this.equipmentList = null;
+    	this.currentPage = 1;
+    	this.searchPerformed = false;
+    	return null;
     }
 }

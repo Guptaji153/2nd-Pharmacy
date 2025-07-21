@@ -7,6 +7,11 @@
     <meta charset="UTF-8">
     <title>Owner Registration</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/AddPharmacy.css">
+    
+    <script>window.onpopstate = function(event) {
+        location.reload();
+    };
+        </script>
 </head>
 <body>
 <jsp:include page="/navbar/NavAuthentication.jsp" />

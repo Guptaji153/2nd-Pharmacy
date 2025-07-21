@@ -23,7 +23,7 @@
             <!-- Email input -->
             <div class="form-group">
                 <h:outputLabel for="email" value="Email Id:" styleClass="form-label" />
-                <h:inputText id="email" value="#{controller.pharmacy.email}" required="true" styleClass="form-input" />
+                <h:inputText id="email" value="#{controller.pharmacy.email}" styleClass="form-input"  />
             </div>
 
             <!-- Temp Password input -->

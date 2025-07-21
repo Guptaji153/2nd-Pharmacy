@@ -30,7 +30,7 @@
             <div class="form-group">
                 <h:outputLabel for="newPassword" value="New Password:" styleClass="form-label" />
                 <h:inputSecret id="newPassword" value="#{controller.pharmacy.password}" required="true" styleClass="form-input" />
-            </div>
+                <h:message for="pwd" style="color:red" />
 
             <!-- Confirm New Password -->
             <div class="form-group">

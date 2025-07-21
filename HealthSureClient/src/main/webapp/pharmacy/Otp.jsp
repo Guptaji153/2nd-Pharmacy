@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <h:outputLabel for="email" value="Email ID:" styleClass="form-label" />
-                <h:inputText id="email" value="#{controller.pharmacy.email}" styleClass="form-input" />
+              <h:inputText id="email" value="#{sessionScope.otpemail}" disabled="true" styleClass="form-input" /> 
             </div>
 
             <div class="form-group">

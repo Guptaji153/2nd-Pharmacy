@@ -33,9 +33,11 @@ h2 {
 .search-grid{
 	width:100%;
 	justify-content:start;
+	
+	
 }
 #searchForm {
-  
+
   max-width: 1000px;
   margin-bottom: 20px;
   background: #ffffff;

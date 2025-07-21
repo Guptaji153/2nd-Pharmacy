@@ -16,14 +16,15 @@
 
     <!-- Search -->
     <h:form id="searchForm">
-        <h:panelGrid columns="4" cellpadding="5" styleClass="search-grid">
+        <h:panelGrid columns="5" cellpadding="5" styleClass="search-grid">
             <h:outputLabel value="Search:" />
             <h:inputText value="#{viewController.searchText}" />
-            <h:selectOneRadio value="#{viewController.searchMode}" styleClass ="radio-inline">
-                <f:selectItem itemValue="starts" itemLabel="Starts With" />
+            <h:selectOneRadio value="#{viewController.searchMode}" layout="lineDirection" styleClass ="radio-inline">
+                <f:selectItem itemValue="starts"  itemLabel="Starts With" />
                 <f:selectItem itemValue="contains" itemLabel="Contains" />
             </h:selectOneRadio>
             <h:commandButton id="searchBtn" value="Search" action="#{viewController.searchMedicines}" />
+            <h:commandButton id ="resetBtn" value="Reset" action="#{viewController.resetSearch}" />
             
         </h:panelGrid>
     </h:form>
@@ -96,18 +97,19 @@
             <!-- Pagination Controls -->
             <div style="text-align:center; margin-top: 20px;">
                 <h:commandButton value="<-Prev" action="#{viewController.previousPage}" disabled="#{viewController.currentPage == 1 }" styleClass="page-button" />
-                <h:outputText value=" Page #{viewController.currentPage} of #{viewController.totalPages} " style="margin: 0 10px;" />
-                <h:commandButton value="Next ->;" action="#{viewController.nextPage}" disabled="#{viewController.currentPage == viewController.totalPages}" styleClass="page-button" />
+                <h:outputText value="<- Page #{viewController.currentPage} of #{viewController.totalPages} " style="margin: 0 10px;" />
+                <h:commandButton value="Next ->" action="#{viewController.nextPage}" disabled="#{viewController.currentPage == viewController.totalPages}" styleClass="page-button" />
             </div>
         </h:panelGroup>
 
         <!-- No Results Message -->
-        <h:panelGroup rendered="#{empty viewController.medicinesList}">
+        <h:panelGroup rendered="#{ viewController.searchPerformed and empty viewController.medicinesList }">
             <div style="text-align:center; color:red; margin-top:20px;">
                 <h:outputText value = "No result found for: " />
                 <h:outputText value = "#{viewController.searchText}" style = "font-weight:bold;" />
             </div>
-        </h:panelGroup>
+        </h:panelGroup>   
+       
     </h:form>
 </div>
 

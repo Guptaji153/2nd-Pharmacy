@@ -34,8 +34,8 @@ public class DoctorSearchTest {
                 System.out.println("Name        : " + doc.getDoctorName());
                 System.out.println("Specialization : " + doc.getSpecialization());
                 System.out.println("Address     : " + doc.getAddress());
-                System.out.println("Status      : " + doc.getStatusString());
-                System.out.println("Gender      : " + doc.getGenderString());
+//                System.out.println("Status      : " + doc.getStatusString());
+//                System.out.println("Gender      : " + doc.getGenderString());
                 System.out.println("------------------------------");
             }
         }

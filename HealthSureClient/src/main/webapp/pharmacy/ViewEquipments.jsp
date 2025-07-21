@@ -16,7 +16,7 @@
 
     <!-- Search -->
 <h:form id="searchForm">
-    <h:panelGrid columns="4" cellpadding="5" styleClass="search-grid">
+    <h:panelGrid columns="5" cellpadding="5" styleClass="search-grid">
         <h:outputLabel for="searchText" value="Search:" />
         <h:inputText id="searchText" value="#{viewEquipmentController.searchText}" />
 
@@ -26,6 +26,7 @@
         </h:selectOneRadio>
 
         <h:commandButton id="searchBtn" value="Search" action="#{viewEquipmentController.searchEquipment}" />
+        <h:commandButton id ="resetBtn" value="Reset" action="#{viewEquipmentController.resetSearch}" />
     </h:panelGrid>
 </h:form>
 
@@ -101,12 +102,12 @@
             <div style="text-align:center; margin-top: 20px;">
                 <h:commandButton value="<- Prev" action="#{viewEquipmentController.previousPage}" disabled="#{viewEquipmentController.currentPage == 1}" styleClass="page-button" />
                 <h:outputText value=" Page #{viewEquipmentController.currentPage} of #{viewEquipmentController.totalPages} " style="margin: 0 10px;" />
-                <h:commandButton value="Next ->;" action="#{viewEquipmentController.nextPage}" disabled="#{viewEquipmentController.currentPage == viewEquipmentController.totalPages}" styleClass="page-button"/>
+                <h:commandButton value="Next ->" action="#{viewEquipmentController.nextPage}" disabled="#{viewEquipmentController.currentPage == viewEquipmentController.totalPages}" styleClass="page-button"/>
             </div>
         </h:panelGroup>
 
         <!-- No Results Message -->
-        <h:panelGroup rendered="#{empty viewEquipmentController.equipmentList}">
+        <h:panelGroup rendered="#{viewEquipmentController.searchPerformed and empty viewEquipmentController.equipmentList}">
             <div style="text-align:center; color:red; margin-top:20px;">
                 <h:outputText value = "No result found for: " />
                 <h:outputText value = "#{viewEquipmentController.searchText}" style = "font-weight:bold;" />
