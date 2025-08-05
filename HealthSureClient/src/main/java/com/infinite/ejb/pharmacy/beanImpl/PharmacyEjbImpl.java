@@ -1,6 +1,8 @@
 package com.infinite.ejb.pharmacy.beanImpl;
 
 
+import java.sql.SQLException;
+
 import javax.naming.NamingException;
 
 import com.infinite.ejb.pharmacy.bean.PharmacyBeanRemote;
@@ -30,5 +32,12 @@ public class PharmacyEjbImpl {
     	return remote.updateEquipmentDetails(equipment);
     }
     
+    public Medicines getMedicineById(String medicineId) throws ClassNotFoundException {
+    	return remote.getMedicineById(medicineId);
+    }
+    
+    public Equipment getEquipmentById(String equipmentId) throws ClassNotFoundException, SQLException{
+    	return remote.getEquipmentById(equipmentId);
+    }
 
 }

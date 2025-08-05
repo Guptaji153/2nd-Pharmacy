@@ -25,7 +25,7 @@
 				<div class="form-group">
 					<h:outputLabel for="email" value="Email Id:"
 						styleClass="form-label" />
-					<h:inputText id="email" value="#{controller.pharmacy.email}"
+					<h:inputText id="email" value="#{controller.loginEmail}"
 					 styleClass="form-input" />
 				</div>
 
@@ -52,7 +52,7 @@
 					<!-- Submit Button -->
 					<div class="form-group">
 						<h:commandButton value="Update Password"
-							action="#{controller.updatePassword(controller.pharmacy.email, controller.pharmacy.password)}"
+							action="#{controller.updatePasswordByOtp}"
 							styleClass="submit-button" />
 					</div>
 

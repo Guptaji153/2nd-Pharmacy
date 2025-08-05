@@ -1,206 +1,269 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #eef2f7;
+.expired-date {
+	color: red;
+	font-weight: bold;
 }
 
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-color: #eef2f7;
+}
+
+/* Top container */
 .top {
-  margin-top: 80px;
-  padding: 30px;
-  width: 100%;
-  background-color: #eef2f7;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	margin-top: 60px;
+	padding: 32px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: #eef2f7;
 }
 
 h2 {
-  color: #1e3a8a;
-  margin-bottom: 20px;
-  font-size: 28px;
-  font-weight: bold;
+	color: #1e3a8a;
+	margin-bottom: 24px;
+	font-size: 28px;
+	font-weight: bold;
+	letter-spacing: 0.5px;
 }
 
-/* Search Form */
-/* Align JSF radio buttons horizontally */
-.radio-inline td {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.search-grid{
-	width:100%;
-	justify-content:start;
-	
-	
-}
+/* ---- Search Form ---- */
 #searchForm {
-
-  max-width: 1000px;
-  margin-bottom: 20px;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 30px 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	background: #fff;
+	border-radius: 12px;
+	border: 1px solid #ddd;
+	box-shadow: 0 4px 15px rgba(30, 64, 175, 0.08);
+	max-width: 900px;
+	width: 100%;
+	margin-bottom: 22px;
+	padding: 24px 28px;
 }
 
-#searchForm table {
-  width: 80%;
-  border-collapse: collapse;
-  table-layout: fixed;
+.search-grid {
+	width: 100%;
+	gap: 18px;
 }
 
 #searchForm td {
-  padding: 10px;
-  vertical-align: middle;
+	padding: 8px 12px;
 }
 
 #searchForm input[type="text"] {
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+	padding: 9px 14px;
+	border-radius: 5px;
+	border: 1px solid #bbb;
+	width: 98%;
+	font-size: 15px;
 }
 
-#searchForm .ui-selectoneradio,
-#searchForm input[type="radio"] {
-  margin-left: 10px;
-}
-.desc-column{
-	overflow:hidden;
-	textoverflow:ellipsis;
-	white-space: normal;
-	word-wrap: break-word;
-	max-width:300px;
-	over-flow-wrap:break-word;
-}
-#searchForm input[type="submit"],
-#searchForm button,
-#searchForm .jsf-command-button {
-  padding: 10px 20px;
-  font-size: 15px;
-  background-color: #1e40af;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.radio-inline td {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	padding-left: 0;
 }
 
-#searchForm input[type="submit"]:hover,
-#searchForm button:hover {
-  background-color: #1d4ed8;
+#searchForm input[type="submit"], #searchForm button, #searchForm .jsf-command-button
+	{
+	padding: 9px 18px;
+	background: #1e40af;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	font-size: 15px;
+	cursor: pointer;
+	transition: background 0.2s;
 }
 
-/* Medicines Table */
+#searchForm input[type="submit"]:hover, #searchForm button:hover {
+	background: #2563eb;
+}
+
+/* ---- Medicines Table ---- */
 .table {
-  width: 100%;
-  max-width: 1200px;
-  border-collapse: collapse;
-  margin: 0 auto;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  table-layout: fixed;
+	width: 100%;
+	max-width: 1200px;
+	border-collapse: collapse;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+	background: #fff;
+	margin: 0 auto;
+	table-layout: fixed;
+	overflow: hidden;
 }
 
-.table th,
-.table td {
-  padding: 18px 22px;
-  border: 1px solid #ddd;
-  text-align: left;
-  font-size: 15px;
-  word-wrap: break-word;
-  white-space: normal;
+.table th, .table td {
+	font-size: 16px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	padding: 16px 16px;
+	text-align: left;
+	word-break: break-word;
+	color: #232323;
 }
 
 .table th {
-  background-color: #2563eb;
-  color: white;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
+	background: #2563eb;
+	color: #fff;
+	font-size: 17px;
+	text-align: center;
+	cursor: pointer;
 }
 
 .table th:hover {
-  background-color: #1e40af;
+	background: #1e40af;
 }
 
 .table tr:nth-child(even) {
-  background-color: #f7faff;
+	background: #f8fafc;
 }
 
 .table tr:nth-child(odd) {
-  background-color: #ffffff;
+	background: #fff;
 }
 
 .table tr:hover {
-  background-color: #e0f0ff;
+	background: #e8f1ff;
 }
 
 /* Sortable header links */
 .table th a {
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
 }
 
 .table th a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
-/* Pagination 
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+/* Column for description */
+.desc-column {
+	max-width: 240px;
+	white-space: normal;
+	word-break: break-word;
+	overflow-wrap: break-word;
 }
 
-.pagination button,
-.pagination input[type="submit"],
-.pagination .jsf-command-button {
-  padding: 8px 16px;
-  background-color: #1e40af;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+/* ---- MAIN STYLE FOR LINKED CELLS ---- */
+.table .commandLink, .table a, .table .commandLink:visited {
+	color: #212121;
+	background: none;
+	border: none;
+	font-size: 16px;
+	font-family: inherit;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	transition: color 0.18s, text-decoration 0.18s;
 }
 
-.pagination button:disabled {
-  background-color: #a5b4fc;
-  cursor: not-allowed;
+.table .commandLink:hover, .table a:hover {
+	color: #2563eb;
+	text-decoration: underline;
 }
-*/
-.page span {
-  align-self: center;
-  font-size: 16px;
-  color: #333;
+
+.table .active-page-link {
+	color: #fff !important;
+	background: #2563eb;
+	text-decoration: underline;
+	font-weight: bold;
+	border-radius: 3px;
+	padding: 0 6px;
 }
+
+.page-link {
+	color: #2563eb;
+	font-weight: 600;
+	font-size: 16px;
+	text-decoration: none;
+	padding: 2px 8px;
+	border-radius: 3px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	margin: 0 1px;
+}
+
+.page-link:hover {
+	color: #1e40af;
+	background: #e0e7ff;
+	text-decoration: none;
+}
+
+/* ---- Pagination ---- */
 .page-button {
-  padding: 10px 20px;
-  background-color: #1e40af; /* Dark blue */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  
-}
-
-.page-button:hover {
-  background-color: #1d4ed8;
+	padding: 9px 14px;
+	background: #1e40af;
+	color: #fff;
+	border: none;
+	border-radius: 7px;
+	font-size: 15px;
+	margin: 0 7px;
+	transition: background 0.18s;
+	cursor: pointer;
+	outline: none;
 }
 
 .page-button:disabled {
-  background-color: #a5b4fc;
-  cursor: not-allowed;
+	background: #a5b4fc;
+	cursor: not-allowed;
 }
 
+.page-button:hover:enabled {
+	background: #2563eb;
+}
 
+/* Make all JSF command links in your table look like black text with no underline */
+.table a, .table .commandLink, .table .ui-commandlink, .table a:visited,
+	.table a:active {
+	color: #232323 !important;
+	text-decoration: none !important;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 500 !important;
+	background: none !important;
+	border: none !important;
+	cursor: pointer;
+}
+
+/* On hover: blue and underlined */
+.table a:hover, .table .commandLink:hover, .table .ui-commandlink:hover
+	{
+	color: #2563eb !important;
+	text-decoration: underline !important;
+}
+
+#tableForm {
+	width: 100%;
+	max-width: 1220px;
+	margin: 0 auto;
+}
+
+.no-result {
+	color: #e11d48;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 26px;
+}
+
+::-webkit-input-placeholder {
+	color: #8b8b8b;
+}
+
+::-moz-placeholder {
+	color: #8b8b8b;
+}
+
+:-ms-input-placeholder {
+	color: #8b8b8b;
+}
+
+::placeholder {
+	color: #8b8b8b;
+}
+
+.table a, expired-date, .table .commandlink.expired-date {
+	color: red;
+	font-weight: bold;
+}

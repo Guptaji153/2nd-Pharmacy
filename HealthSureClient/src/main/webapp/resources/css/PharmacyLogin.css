@@ -97,7 +97,20 @@ h2 {
 /* Error messages */
 .error-message {
   color: red;
-  font-size: 17px;
-  margin-bottom: 10px;
-  text-align: center;
+  font-size:17px;
+  margin-bottom:10px;
+  text-align:center;
 }
+.foot-div{
+    background-color: #f9f9f9;
+    display:flex;
+    justify-content:space-between;
+    padding:10px 20px;
+}
+
+.foot-div a {
+    text-decoration:none;
+    color: #007bff; 
+    font-weight: bold;
+}
+

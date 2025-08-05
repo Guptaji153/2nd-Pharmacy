@@ -9,4 +9,5 @@ public interface EquipmentDao {
 	 List<Equipment> getEquipmentByPharmacyId(String pharmacyId);
 	    List<Equipment> searchEquipmentStartingWith(String name, String pharmacyId);
 	    List<Equipment> searchEquipmentContaining(String name, String pharmacyId);
+	    List<Equipment> searchEquipmentExactMatch(String name, String pharmacyId);
 }

@@ -7,4 +7,5 @@ public interface MedicinesDao {
     List<Medicines> getMedicinesByPharmacyId(String pharmacyId);
     List<Medicines> searchMedicinesStartingWith(String name, String pharmacyId);
     List<Medicines> searchMedicinesContaining(String name, String pharmacyId);
+	List<Medicines> searchMedicinesExactMatch(String name, String pharmacyId);
 }

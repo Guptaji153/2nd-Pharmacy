@@ -24,11 +24,11 @@
         <!-- ✅ Action Buttons -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 		    <h:form>
-		        <h:commandButton value="View Medicines Stocks" action="#{viewController.ViewMedicineStocks}"
+		        <h:commandButton value="View Medicines Stocks" action="#{medicinesController.resetSearch}"
 		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
 		    </h:form>
 		    <h:form>
-		        <h:commandButton value="View Equipments Stocks" action="#{viewEquipmentController.ViewPharmacyStocks}"
+		        <h:commandButton value="View Equipments Stocks" action="#{equipmentController.resetSearch}"
 		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
 		    </h:form>
 		    <h:form>
