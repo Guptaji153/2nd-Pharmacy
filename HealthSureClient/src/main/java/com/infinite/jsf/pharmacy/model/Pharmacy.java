@@ -3,7 +3,7 @@ package com.infinite.jsf.pharmacy.model;
 import java.sql.Timestamp;
 import java.util.Set;
  
-public class Pharmacy {
+public class Pharmacy  {
  
 	private String pharmacyId;
 	private Timestamp createdAt;
@@ -208,6 +208,10 @@ public class Pharmacy {
 				+ ", medicines=" + medicines + ", equipments=" + equipments + ", pharmacists=" + pharmacists
 				+ ", dispensedMedicines=" + dispensedMedicines + ", dispensedEquipments=" + dispensedEquipments
 				+ ", passwords=" + passwords + "]";
+	}
+	public Pharmacy() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
 	

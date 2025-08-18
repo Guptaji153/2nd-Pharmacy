@@ -15,19 +15,8 @@ public class MedicinesDaoImpl implements MedicinesDao {
 	/**
 	 * Fetch all medicines of a specific pharmacy by using their id
 	 *  */
-//    @Override
-//    public List<Medicines> getMedicinesByPharmacyId(String pharmacyId) {
-//        Session session = SessionHelper.getSessionFactory().openSession();
-//        try {
-//            Query query = session.createQuery("from Medicines where pharmacy.pharmacyId = :pharmacyId");
-//            query.setParameter("pharmacyId", pharmacyId);
-//            return query.list();
-//        } finally {
-//            session.close();
-//        }
-//    }
-   
-	
+
+   	
 	@Override
 	public List<Medicines> getMedicinesByPharmacyId(String pharmacyId) {
 		log.info("get medicine by medicineId");
@@ -47,6 +36,8 @@ public class MedicinesDaoImpl implements MedicinesDao {
 		    session.close();
 		}
 	}
+	
+	
     /** 
      * Search medicines based on start with for a particular pharmacy 
      *  */

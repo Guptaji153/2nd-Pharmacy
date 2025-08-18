@@ -41,7 +41,7 @@ public class MedicinesController {
 
 	// Search related fields
 	private String searchText;
-	private String searchMode = null; // default
+	private String searchMode = null;
 
 	// Getter and Setter for searchText
 	public String getSearchText() {
@@ -131,16 +131,17 @@ public class MedicinesController {
 		if (medicinesList == null) {
 			String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 					.get("pharmacy_id");
-			
+
 			medicinesList = medicinesDao.getMedicinesByPharmacyId(pharmacyId);
-			Object savedPage = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentPage");
-			if(savedPage != null) {
-				currentPage = (Integer)savedPage;
-			}else {
-				currentPage = 1; // reset to first page
+			Object savedPage = FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+					.get("currentPage");
+			if (savedPage != null) {
+				currentPage = (Integer) savedPage;
+			} else {
+				currentPage = 1;
 			}
-			
-			searchPerformed = true; 
+
+			searchPerformed = true;
 		}
 
 		int fromIndex = (currentPage - 1) * pageSize;
@@ -149,23 +150,34 @@ public class MedicinesController {
 	}
 
 	// Navigation
+	/**
+	 * move to next page if current page is less than total page
+	 */
 	public void nextPage() {
 		if (currentPage < getTotalPages()) {
 			currentPage++;
 		}
 	}
 
+	/**
+	 * move to previous page if current is more than 1
+	 */
 	public void previousPage() {
 		if (currentPage > 1) {
 			currentPage--;
 		}
 	}
 
-	// ............
+	/**
+	 * show count of 1st record on current page
+	 */
 	public int getShowingFrom() {
 		return (medicinesList == null || medicinesList.isEmpty()) ? 0 : ((currentPage - 1) * pageSize) + 1;
 	}
 
+	/**
+	 * show count of last record on current page
+	 */
 	public int getShowingTo() {
 		if (medicinesList == null || medicinesList.isEmpty())
 			return 0;
@@ -174,6 +186,9 @@ public class MedicinesController {
 		return Math.min(toIndex, medicinesList.size());
 	}
 
+	/**
+	 * show count of total records
+	 */
 	public int getTotalRecords() {
 		return medicinesList == null ? 0 : medicinesList.size();
 	}
@@ -182,7 +197,7 @@ public class MedicinesController {
 	 * sorting..............
 	 */
 
-	private String sortField = ""; // default
+	private String sortField = "";
 	private boolean sortAscending = true;
 
 	public String getSortField() {
@@ -213,19 +228,30 @@ public class MedicinesController {
 		sortCurrentList();
 	}
 
+	/**
+	 * sorts the medicinesList based on a selected field after sorting reset page to
+	 * 1
+	 */
 	private void sortCurrentList() {
 		if (medicinesList != null && !medicinesList.isEmpty()) {
 			Comparator<Medicines> comparator = getComparatorForField(sortField);
 			if (comparator != null) {
 				if (!sortAscending) {
 					comparator = comparator.reversed();
+					currentPage = 1;
 				}
 				medicinesList.sort(comparator);
+				currentPage = 1;
 			}
 		}
 	}
 
+	/**
+	 * Returns a comparator for the specified field to enable sorting of medicines.
+	 */
 	private Comparator<Medicines> getComparatorForField(String field) {
+		if (field == null)
+			return null;
 		switch (field) {
 		case "medicineId":
 			return Comparator.comparing(Medicines::getMedicineId);
@@ -242,33 +268,42 @@ public class MedicinesController {
 		default:
 			return null;
 		}
+
 	}
 
+	/** getting today's date to highlight expired medicines */
 	public Date getCurrentDate() {
 		return new Date();
 	}
 
 //to call in home pharmacy page
-//	public String ViewMedicineStocks() {
-//		return "ViewMedicines.jsf?faces-redirect=true";
-//	}
+	public String ViewMedicineStocks() {
+		this.searchText = null;
+		this.searchMode = null;
+		this.medicinesList = null;
+		this.currentPage = 1;
+		this.searchPerformed = false;
+		this.setSortField(null);
+		return "ViewMedicines.jsf?faces-redirect=true";
+	}
 
 	/** refresh */
 	public String resetSearch() {
-//		this.searchText = null;
-//		this.searchMode = null;
-//		this.medicinesList = null;
-//		this.currentPage = 1;
-//		this.searchPerformed = false;
-//		this.setSortField(null);
-		return "ViewMedicines.jsp?faces-redirect=true";
+		this.searchText = null;
+		this.searchMode = null;
+		this.medicinesList = null;
+		this.currentPage = 1;
+		this.searchPerformed = false;
+		this.setSortField(null);
+		return null;
 	}
 
 	/** EJB side ... */
 	private com.infinite.ejb.pharmacy.model.Medicines ejbMedicine;
-	/** object from faces config(bin) */
+	/** object from faces-config(bin) */
 	private PharmacyEjbImpl pharmacyEjbImpl;
 	private com.infinite.ejb.pharmacy.model.Equipment ejbEquipment;
+	/** private variables */
 	private int originalQuantityInStock;
 	private String medicineName;
 	private String description;
@@ -325,19 +360,24 @@ public class MedicinesController {
 	}
 
 	public com.infinite.ejb.pharmacy.model.Medicines getEjbMedicine() {
-		if (ejbMedicine == null) {
-			ejbMedicine = (com.infinite.ejb.pharmacy.model.Medicines) FacesContext.getCurrentInstance()
-					.getExternalContext().getSessionMap().get("ejbMedicine");
-		}
+//		if (ejbMedicine == null) {
+//			ejbMedicine = (com.infinite.ejb.pharmacy.model.Medicines) FacesContext.getCurrentInstance()
+//					.getExternalContext().getSessionMap().get("ejbMedicine");
+//		}
 		return ejbMedicine;
 	}
 
+//	public int getOriginalQuantityInStock() {
+//		Object qtyObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("originalQty");
+//		if (qtyObj != null) {
+//			return (Integer) qtyObj;
+//		}
+//		return 0;
+//	}
+
 	public int getOriginalQuantityInStock() {
-		Object qtyObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("originalQty");
-		if (qtyObj != null) {
-			return (Integer) qtyObj;
-		}
-		return 0;
+
+		return originalQuantityInStock;
 	}
 
 	public void setEjbMedicine(com.infinite.ejb.pharmacy.model.Medicines ejbMedicine) {
@@ -395,9 +435,9 @@ public class MedicinesController {
 			isValid = false;
 		}
 
-		if (ejbMedicine.getUnitPrice() < 0) {
-			context.addMessage("updateForm:unitPrice",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unit Price must be a positive number.", null));
+		if (ejbMedicine.getUnitPrice() < 1) {
+			context.addMessage("updateForm:unitPrice", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Unit Price must be a positive and greater then 0 number.", null));
 			isValid = false;
 		}
 
@@ -441,24 +481,43 @@ public class MedicinesController {
 	/**
 	 * manually converting to ejb side model class
 	 * 
+	 * 
+	 * 
+	 * public String prepareUpdate(com.infinite.jsf.pharmacy.model.Medicines meds) {
+	 * try {
+	 * FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentPage",
+	 * this.currentPage); // Fetch full medicine details from DB using EJB
+	 * com.infinite.ejb.pharmacy.model.Medicines fetched =
+	 * pharmacyEjbImpl.getMedicineById(meds.getMedicineId());
+	 * 
+	 * if (fetched != null) { // Store EJB medicine object in session
+	 * FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ejbMedicine",
+	 * fetched);
+	 * 
+	 * // Also storing original quantity for validation
+	 * FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("originalQty",
+	 * fetched.getQuantityInStock()); }
+	 * 
+	 * return "UpdateMedicine.jsf?faces-redirect=true"; // redirect to update page
+	 * 
+	 * } catch (Exception e) { e.printStackTrace();
+	 * FacesContext.getCurrentInstance().addMessage(null, new
+	 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error preparing update.", null));
+	 * return null; } }
+	 * 
 	 */
 
 	public String prepareUpdate(com.infinite.jsf.pharmacy.model.Medicines meds) {
 		try {
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentPage", this.currentPage);
-			// Fetch full medicine details from DB using EJB
-			com.infinite.ejb.pharmacy.model.Medicines fetched = pharmacyEjbImpl.getMedicineById(meds.getMedicineId());
 
-			if (fetched != null) {
-				// Store EJB medicine object in session
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ejbMedicine", fetched);
+			// Fetch from EJB
+			this.ejbMedicine = pharmacyEjbImpl.getMedicineById(meds.getMedicineId());
 
-				// Also storing original quantity for validation
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("originalQty",
-						fetched.getQuantityInStock());
+			if (this.ejbMedicine != null) {
+				this.originalQuantityInStock = this.ejbMedicine.getQuantityInStock(); // store locally
 			}
 
-			return "UpdateMedicine.jsf?faces-redirect=true"; // redirect to update page
+			return "UpdateMedicine.jsf?faces-redirect=true";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -472,10 +531,9 @@ public class MedicinesController {
 	 * Redirect view medicines
 	 */
 
-	
 	public String redirectToView() {
-	    
-	    return "ViewMedicines.jsf"; // no redirect
+
+		return "ViewMedicines.jsf?faces-redirect=true";
 	}
-		
+
 }

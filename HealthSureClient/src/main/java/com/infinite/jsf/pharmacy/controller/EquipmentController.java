@@ -53,6 +53,7 @@ public class EquipmentController {
         this.searchMode = searchMode;
     }
 
+    /**search text to validate searching by using contains, exactmatch and contains */
     public String searchEquipment() {
         String pharmacyId = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pharmacy_id");
 
@@ -101,6 +102,9 @@ public class EquipmentController {
         return (int) Math.ceil((double) total / pageSize);
     }
 
+    /**
+     * display list in form of page
+     *  */
     public List<Equipment> getPaginatedEquipment() {
         if (equipmentList == null) {
             return new java.util.ArrayList<>();
@@ -169,20 +173,28 @@ public class EquipmentController {
 	    sortCurrentList();
 	}
 
+	/**
+	 * sorts the medicinesList based on a selected field after sorting reset page to 1
+	 */
 	private void sortCurrentList() {
 	    if (equipmentList != null && !equipmentList.isEmpty()) {
 	        Comparator<Equipment> comparator = getComparatorForField(sortField);
 	        if (comparator != null) {
 	            if (!sortAscending) {
 	                comparator = comparator.reversed();
+	                currentPage =1;
 	            }
 	            equipmentList.sort(comparator);
+	            currentPage =1;
 	        }
 	    }
 	}
 
-
+	/**
+	 * Returns a comparator for the specified field to enable sorting of equipments.
+	 */
 	private Comparator<Equipment> getComparatorForField(String field) {
+		if(field == null) return null;
 	    switch (field) {
 	        case "equipmentId":
 	            return Comparator.comparing(Equipment::getEquipmentId);
@@ -205,13 +217,24 @@ public class EquipmentController {
 	}
 	
 
-//    public String ViewPharmacyStocks() {
-//        return "ViewEquipments.jsf?faces-redirect=true";
-//    }
+    public String ViewPharmacyStocks() {
+    	this.searchMode = null;
+    	this.searchText = " ";
+    	this.equipmentList = null;
+    	//this.currentPage = 1;
+    	this.searchPerformed = false;
+    	this.setSortField(null);
+        return "ViewEquipments.jsf?faces-redirect=true";
+    }
     
     public String resetSearch() {
-    	
-    	return "ViewEquipments.jsf?faces-redirect=true";
+    	this.searchMode = null;
+    	this.searchText = " ";
+    	this.equipmentList = null;
+    	//this.currentPage = 1;
+    	this.searchPerformed = false;
+    	this.setSortField(null);
+    	return null;
     }
     
     /** server side ....*/
@@ -220,12 +243,17 @@ public class EquipmentController {
     private com.infinite.ejb.pharmacy.model.Equipment ejbEquipment;
     private int originalQuantityInStock;
     
-	public int getOriginalQuantityInStock() {
-		Object qtyObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("originalQty");
-	    if (qtyObj != null) {
-	        return (Integer) qtyObj;
-	    }
-	    return 0;
+//	public int getOriginalQuantityInStock() {
+//		Object qtyObj = FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("originalQty");
+//	    if (qtyObj != null) {
+//	        return (Integer) qtyObj;
+//	    }
+//	    return 0;
+//	}
+    
+    public int getOriginalQuantityInStock() {
+		
+	    return originalQuantityInStock;
 	}
 	public void setOriginalQuantityInStock(int originalQuantityInStock) {
 		this.originalQuantityInStock = originalQuantityInStock;
@@ -286,9 +314,11 @@ public class EquipmentController {
 	    }
 
 	    // Validate Unit Price
-	    if (ejbEquipment.getUnitPrice() < 0) {
+	    
+	    
+	    if (ejbEquipment.getUnitPrice() < 1 ) {
 	        context.addMessage("err:unitPrice", new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Unit Price must be a positive number.", null));
+	                "Unit Price must be a non zero positive number.", null));
 	        isValid = false;
 	    }
 
@@ -322,7 +352,7 @@ public class EquipmentController {
 //}
 	
 
-	
+	/** 
 	public String prepareUpdate(com.infinite.jsf.pharmacy.model.Equipment med) {
 	    try {
 	        // Fetch full medicine details from DB using EJB
@@ -348,4 +378,32 @@ public class EquipmentController {
 	        return null;
 	    }
 	}	
+	*/
+	public String prepareUpdate(com.infinite.jsf.pharmacy.model.Equipment med) {
+	    try {
+	       
+
+	        // Fetch from EJB
+	        this.ejbEquipment = pharmacyEjbImpl.getEquipmentById(med.getEquipmentId());
+
+	        if (this.ejbEquipment != null) {
+	            this.originalQuantityInStock = this.ejbEquipment.getQuantity(); // store locally
+	        }
+
+	        return "UpdateEquipments.jsf?faces-redirect=true";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        FacesContext.getCurrentInstance().addMessage(null,
+	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error preparing update.", null));
+	        return null;
+	    }
+	    
+	    
+	}
+	
+public String redirectToView() {
+		
+	    return "ViewEquipments.jsf?faces-redirect=true"; 
+	}
 }

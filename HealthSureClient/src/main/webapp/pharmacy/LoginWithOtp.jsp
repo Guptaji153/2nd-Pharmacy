@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Login via OTP</title>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/css/Otp.css" />
+	href="${pageContext.request.contextPath}/resources/css/otp.css" />
 
 
 </head>
@@ -36,7 +36,8 @@
 					<!-- Send OTP Button -->
 					<div class="form-group">
 						<h:commandButton value="Send OTP"
-							action="#{controller.sendLoginOtp}" styleClass="submit-button" />
+							action="#{controller.sendLoginOtp}" styleClass="submit-button"
+							disabled="#{controller.sendOtpDisabled }" />
 					</div>
 
 					<!-- Timer display -->
@@ -53,16 +54,19 @@
 						<h:message for="otp" style="color:red;" />
 					</div>
 
-					<!-- Submit OTP Button -->
+					<!-- Submit OTP Button  -->
 					<div class="form-group">
 						<h:commandButton value="Submit OTP"
-							action="#{controller.verifyLoginOtp}" styleClass="submit-button" />
+							action="#{controller.verifyLoginOtp}" styleClass="submit-button"
+							 />
 					</div>
 
-					<!-- Resend OTP -->
+					<!-- Resend OTP --> 
 					<div class="form-group">
 						<h:commandButton value="Resend OTP"
-							action="#{controller.resendLoginOtp}" styleClass="submit-button" />
+							action="#{controller.resendLoginOtp}" styleClass="submit-button" 
+							
+							/>
 					</div>
 
 				</div>

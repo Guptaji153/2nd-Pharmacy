@@ -9,7 +9,7 @@
 <script>
 	window.addEventListener("pageshow", function(event) {
 		if (event.persisted) {
-			// Page was restored from the bfcache (back-forward cache)
+			
 			document.getElementById("form:email").value = "";
 			document.getElementById("form:password").value = "";
 		}
@@ -55,8 +55,10 @@
 							action="#{controller.validateLogin}" styleClass="submit-button" />
 					</div>
 					<div class="foot-div">
-					    <a href="resetPassword.jsf" class="reset"> Reset your password </a>
-					    <a href="LoginWithOtp.jsf" class="otpLogin">Login with OTP </a>
+					 
+                      <h:commandLink action="#{controller.loginWithOtp }" value="Login with OTP" styleClass="reset" /> 
+                      <h:commandLink action="#{controller.resetPassword }" value="Forgot password" styleClass="reset" /> 
+					    
 					</div>
 				</div>
 				

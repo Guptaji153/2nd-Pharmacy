@@ -62,7 +62,7 @@
 			<div class="center-container">
     <!-- Back Button -->
     <h:commandButton value="Back"
-                     action="#{equipmentController.resetSearch}"
+                     action="#{equipmentController.redirectToView}"
                      styleClass="btn" style="margin-right: 20px;"  />
 
     <!-- Update Button  -->

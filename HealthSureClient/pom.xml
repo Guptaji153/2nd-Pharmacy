@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -124,7 +125,7 @@
     <artifactId>javax.mail</artifactId>
     <version>1.6.2</version>
 </dependency>
-		
+
 		<!--  https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core  -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -134,14 +135,14 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
-            <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
-            <!-- artifactId>jersey-container-servlet</artifactId -->
+			<!-- use the following artifactId if you don't need servlet 2.x compatibility -->
+			<!-- artifactId>jersey-container-servlet</artifactId -->
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
         </dependency>
-        <!-- uncomment this to get JSON support
+		<!-- uncomment this to get JSON support
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-binding</artifactId>

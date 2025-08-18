@@ -1,5 +1,7 @@
 package com.infinite.ejb.pharmacy.bean;
 
+import java.sql.SQLException;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -25,6 +27,7 @@ public class PharmacyBean implements PharmacyBeanRemote {
 	static {
 		updateMedicineImpl = new UpdateMedicinesDaoImpl();
 		updateEquipmentImpl = new UpdateEquipmentsDaoImpl();
+		
 	}
 
     /**
@@ -44,6 +47,18 @@ public class PharmacyBean implements PharmacyBeanRemote {
 	public boolean updateEquipmentDetails(Equipment equipment) {
 		// TODO Auto-generated method stub
 		return updateEquipmentImpl.updateEquipmentDetails(equipment);
+	}
+
+	@Override
+	public Medicines getMedicineById(String medicineId) throws ClassNotFoundException {
+		// TODO Auto-generated method stub
+		return updateMedicineImpl.getMedicineById(medicineId);
+	}
+
+	@Override
+	public Equipment getEquipmentById(String equipmentId) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		return updateEquipmentImpl.getEquipmentById(equipmentId);
 	}
 
 }

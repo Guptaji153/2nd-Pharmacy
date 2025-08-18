@@ -2,6 +2,8 @@ package com.infinite.ejb.pharmacy.daoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.infinite.ejb.pharmacy.dao.UpdateMedicinesDao;
 import com.infinite.ejb.pharmacy.model.Medicines;
@@ -14,7 +16,7 @@ public class UpdateMedicinesDaoImpl implements UpdateMedicinesDao {
 	@Override
 	public boolean updateMedicineDetails(Medicines med) {
 		try {
-            connection = ConnectionHelper.getConnection(); // Your JDBC connection helper
+            connection = ConnectionHelper.getConnection(); 
             String sql = "UPDATE Medicines SET medicine_name = ?, description = ?, quantity_in_stock = ?, unit_price = ?, purpose = ? WHERE medicine_id = ?";
             pst = connection.prepareStatement(sql);
 
@@ -36,4 +38,37 @@ public class UpdateMedicinesDaoImpl implements UpdateMedicinesDao {
             return false;
         }
 	}
+	
+	@Override
+	public Medicines getMedicineById(String medicineId) throws ClassNotFoundException {
+	    Medicines med = null;
+
+	    try {
+	        connection = ConnectionHelper.getConnection();
+	        String sql = "SELECT * FROM Medicines WHERE medicine_id = ?";
+	        pst = connection.prepareStatement(sql);
+	        pst.setString(1, medicineId);
+
+	        ResultSet rs = pst.executeQuery();
+
+	        if (rs.next()) {
+	            med = new Medicines();
+	            med.setMedicineId(rs.getString("medicine_id"));
+	            med.setMedicineName(rs.getString("medicine_name"));
+	            med.setDescription(rs.getString("description"));
+	            med.setQuantityInStock(rs.getInt("quantity_in_stock"));
+	            med.setUnitPrice(rs.getDouble("unit_price"));
+	            med.setPurpose(rs.getString("purpose"));
+	            med.setBatchNo(rs.getString("batch_no"));
+	            med.setExpiryDate(rs.getDate("expiry_date"));
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return med;
+	}
+	
+	
 }

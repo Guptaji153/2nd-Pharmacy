@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <!DOCTYPE html>
@@ -10,11 +8,14 @@
 <title>Terms and Conditions - Pharmacy Registration</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/Terms&Conditions.css">
+
 </head>
 <body>
 	<jsp:include page="/navbar/NavAuthentication.jsp" />
 	<div class="top">
+	
 		<main>
+			
 			<h1>Terms and Conditions for Pharmacy Registration</h1>
 			<p>These terms and conditions govern the functional, regulatory,
 				and contractual requirements for operating a pharmacy within a
@@ -88,7 +89,7 @@
 				<li>The layout should comply with fire safety and public health
 					code standards.</li>
 			</ul>
-
+		
 			<h2>8. Quality Assurance and Audit</h2>
 			<ul>
 				<li>The pharmacy must implement self-audit mechanisms and
@@ -120,9 +121,11 @@
 				updates in legal and policy frameworks. Pharmacies must stay
 				compliant with all relevant laws and hospital regulations.
 			</p>
-		</main>
+		<a href="AddPharmacy.jsf">Back</a>
+		</main>	
+		
 	</div>
-
+	
 	<jsp:include page="/footer/Footer.jsp" />
 </body>
 </html>

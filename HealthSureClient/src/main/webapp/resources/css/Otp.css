@@ -85,3 +85,11 @@ h2 {
   margin-bottom: 10px;
   text-align: center;
 }
+.submit-button:disabled{
+	background: #a5b4fc;
+	cursor: not-allowed;
+}
+.submit-button:hover:enabled {
+	 background-color: #0056b3;
+     transform: scale(1.05);
+}

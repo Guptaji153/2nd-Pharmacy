@@ -14,17 +14,12 @@ public class PharmacyController {
 	private PharmacyDaoImpl pharmacyDao;
 	private Pharmacy pharmacy;
 	private String confirmPassword;
+	// PharmacyOtp otpPharma = new PharmacyOtp();
 	private PharmacyOtp pharmacyOtp;
+
+	// private String tempPassword;
 	public PharmacyDaoImpl getPharmacyDao() {
 		return pharmacyDao;
-	}
-
-	public PharmacyOtp getPharmacyOtp() {
-		return pharmacyOtp;
-	}
-
-	public void setPharmacyOtp(PharmacyOtp pharmacyOtp) {
-		this.pharmacyOtp = pharmacyOtp;
 	}
 
 	public void setPharmacyDao(PharmacyDaoImpl pharmacyDao) {
@@ -46,6 +41,14 @@ public class PharmacyController {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+	
+	public PharmacyOtp getPharmacyOtp() {
+		return pharmacyOtp;
+	}
+
+	public void setPharmacyOtp(PharmacyOtp pharmacyOtp) {
+		this.pharmacyOtp = pharmacyOtp;
+	}
 
 	/**
 	 * pharmacy owner registration
@@ -53,7 +56,7 @@ public class PharmacyController {
 	public String proceedToPharmacyDetails() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean isValid = true;
-
+		// validations
 		if (pharmacy.getFirstName() == null || pharmacy.getFirstName().trim().isEmpty()) {
 			context.addMessage("form:firstName",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "First name is required", null));
@@ -82,7 +85,7 @@ public class PharmacyController {
 			isValid = false;
 		}
 
-		if (pharmacyDao.isOwnerMobileExist(pharmacy.getOwnerMobile())) {
+		if (pharmacyDao.isOwnerMobileExist(pharmacy.getOwnerMobile().trim())) {
 			context.addMessage("form:ownerMobile",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Owner Mobile already registered.", null));
 			isValid = false;
@@ -92,7 +95,7 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mobile number is required", null));
 			isValid = false;
 		}
-		if (!pharmacy.getOwnerMobile().matches("[1-9]\\d{9}")) {
+		if (!pharmacy.getOwnerMobile().trim().matches("[1-9]\\d{9}")) {
 			context.addMessage("form:ownerMobile",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mobile number must be 10 digits.", null));
 			isValid = false;
@@ -109,13 +112,13 @@ public class PharmacyController {
 			isValid = false;
 		}
 
-		if (!pharmacy.getAadhar().matches("[2-9]\\d{3}-\\d{4}-\\d{4}")) {
+		if (!pharmacy.getAadhar().trim().matches("[2-9]\\d{3}-\\d{4}-\\d{4}")) {
 			context.addMessage("form:aadharNo", new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Aadhar must be in the format XXXX-XXXX-XXXX. & can't start with 0 or 1", null));
 			isValid = false;
 		}
 
-		if (pharmacyDao.isAadharExists(pharmacy.getAadhar())) {
+		if (pharmacyDao.isAadharExists(pharmacy.getAadhar().trim())) {
 			context.addMessage("form:aadharNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aadhar already registered.", null));
 			isValid = false;
@@ -125,13 +128,13 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Owner email is required.", null));
 			isValid = false;
 		}
-		if (!isValidEmail(pharmacy.getOwnerEmail())) {
+		if (!isValidEmail(pharmacy.getOwnerEmail().trim())) {
 			context.addMessage("form:ownerEmail",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid owner email.", null));
 			isValid = false;
 		}
 
-		if (pharmacyDao.isOwnerEmailExist(pharmacy.getOwnerEmail())) {
+		if (pharmacyDao.isOwnerEmailExist(pharmacy.getOwnerEmail().trim())) {
 			context.addMessage("form:ownerEmail",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Owner email allready register registered.", null));
 			isValid = false;
@@ -141,6 +144,8 @@ public class PharmacyController {
 			context.validationFailed();
 			return null;
 		}
+		System.out.println("first name is............" + pharmacy.getFirstName());
+		System.out.println("aadhar............." + pharmacy.getAadhar());
 
 		return "AddPharmacy.jsf?faces-redirect=true";
 	}
@@ -148,18 +153,27 @@ public class PharmacyController {
 	/**
 	 * pharmacy registration...
 	 */
+
+	private String tempPass;
+
+	public String getTempPass() {
+		return tempPass;
+	}
+
 	public String registerPharmacy() {
+		System.out.println("first name is............" + pharmacy.getFirstName());
+		System.out.println("aadhar............." + pharmacy.getAadhar());
 		FacesContext context = FacesContext.getCurrentInstance();
 		boolean isValid = true;
-
+		// validations
 		if (pharmacy.getPharmacyName() == null || pharmacy.getPharmacyName().trim().isEmpty()) {
 			context.addMessage("form:pharmacyName",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy name is required.", null));
 			isValid = false;
 		}
 		if (pharmacy.getPharmacyName().length() < 2) {
-			context.addMessage("form:pharmacyName",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy Name must be greater than 2 characters.", null));
+			context.addMessage("form:pharmacyName", new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Pharmacy Name must be greater than 2 characters.", null));
 			isValid = false;
 		}
 		if (pharmacy.getLicenseNo() == null || pharmacy.getLicenseNo().trim().isEmpty()) {
@@ -172,12 +186,12 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "License number must be in upper case ", null));
 			isValid = false;
 		}
-		if (!pharmacy.getLicenseNo().matches("[A-Z]{2}/[0-9]{4}/[0-9]{5}/[A-Z]{1}")) {
+		if (!pharmacy.getLicenseNo().trim().matches("[A-Z]{2}/[0-9]{4}/[0-9]{5}/[A-Z]{1}")) {
 			context.addMessage("form:licenseNo", new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"License Number must be of 12 alphanumeric format [AA/0000/00000/A.]", null));
 			isValid = false;
 		}
-		
+
 		if (pharmacy.getGstNo() == null || pharmacy.getGstNo().trim().isEmpty()) {
 			context.addMessage("form:gstNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST no. is required", null));
@@ -189,7 +203,7 @@ public class PharmacyController {
 			isValid = false;
 		}
 
-		if (!pharmacy.getGstNo().matches("[0-9]{2}[0-9A-Z]{10}[0-9]{1}[Z]{1}[0-9]{1}")) {
+		if (!pharmacy.getGstNo().trim().matches("[0-9]{2}[0-9A-Z]{10}[0-9]{1}[Z]{1}[0-9]{1}")) {
 			context.addMessage("form:gstNo", new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"GST Number must be 15 alphanumeric characters formate [0-9]-2d,[A-Z:0-9]-10d,[0-9]-1d,[Z]-1d,[0-9]-1d.",
 					null));
@@ -201,12 +215,12 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy email is required.", null));
 			isValid = false;
 		}
-		if (!isValidEmail(pharmacy.getEmail())) {
+		if (!isValidEmail(pharmacy.getEmail().trim())) {
 			context.addMessage("form:email",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
 			isValid = false;
 		}
-		if (pharmacyDao.isEmailExist(pharmacy.getEmail())) {
+		if (pharmacyDao.isEmailExist(pharmacy.getEmail().trim())) {
 			context.addMessage("form:email",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, " email allready registered.", null));
 			isValid = false;
@@ -216,12 +230,12 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact Number is required.", null));
 			isValid = false;
 		}
-		if (!pharmacy.getContactNo().matches("[1-9]\\d{9}")) {
+		if (!pharmacy.getContactNo().trim().matches("[1-9]\\d{9}")) {
 			context.addMessage("form:contactNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact Number must be 10 digits.", null));
 			isValid = false;
 		}
-		if (pharmacyDao.isPharmacyMobileExist(pharmacy.getContactNo())) {
+		if (pharmacyDao.isPharmacyMobileExist(pharmacy.getContactNo().trim())) {
 			context.addMessage("form:contactNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Pharmacy Mobile already registered.", null));
 			isValid = false;
@@ -258,7 +272,7 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN Code is required.", null));
 			isValid = false;
 		}
-		if (!pharmacy.getPinCode().matches("[1-9][0-9]{5}")) {
+		if (!pharmacy.getPinCode().trim().matches("[1-9][0-9]{5}")) {
 			context.addMessage("form:pinCode",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN Code must be 6 digits.", null));
 			isValid = false;
@@ -268,12 +282,12 @@ public class PharmacyController {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "PIN Code cannot end in 000.", null));
 			isValid = false;
 		}
-		if (pharmacyDao.isGstExists(pharmacy.getGstNo())) {
+		if (pharmacyDao.isGstExists(pharmacy.getGstNo().trim())) {
 			context.addMessage("form:gstNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "GST number already registered.", null));
 			isValid = false;
 		}
-		if (pharmacyDao.isPharmacyLicenceExist(pharmacy.getLicenseNo())) {
+		if (pharmacyDao.isPharmacyLicenceExist(pharmacy.getLicenseNo().trim())) {
 			context.addMessage("form:licenseNo",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Licence number already registered.", null));
 			isValid = false;
@@ -283,18 +297,79 @@ public class PharmacyController {
 			context.validationFailed();
 			return null;
 		}
+		System.out.println("last name os .............................." + pharmacy.getLastName());
 
+		System.out.println("first name is............" + pharmacy.getFirstName());
+		System.out.println("lic.........." + pharmacy.getLicenseNo());
 		pharmacy.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
+		// trimming all leading/trailing spaces before saving
+		if (pharmacy.getFirstName() != null) pharmacy.setFirstName(pharmacy.getFirstName().trim());
+		if (pharmacy.getMiddleName() != null) pharmacy.setMiddleName(pharmacy.getMiddleName().trim());
+		if (pharmacy.getLastName() != null) pharmacy.setLastName(pharmacy.getLastName().trim());
+		if (pharmacy.getOwnerMobile() != null) pharmacy.setOwnerMobile(pharmacy.getOwnerMobile().trim());
+		if (pharmacy.getOwnerEmail() != null) pharmacy.setOwnerEmail(pharmacy.getOwnerEmail().trim());
+		if (pharmacy.getAadhar() != null) pharmacy.setAadhar(pharmacy.getAadhar().trim());
+		if (pharmacy.getOwnerAddress() != null) pharmacy.setOwnerAddress(pharmacy.getOwnerAddress().trim());
+		if (pharmacy.getPharmacyName() != null) pharmacy.setPharmacyName(pharmacy.getPharmacyName().trim());
+		if (pharmacy.getLicenseNo() != null) pharmacy.setLicenseNo(pharmacy.getLicenseNo().trim());
+		if (pharmacy.getGstNo() != null) pharmacy.setGstNo(pharmacy.getGstNo().trim());
+		if (pharmacy.getEmail() != null) pharmacy.setEmail(pharmacy.getEmail().trim());
+		if (pharmacy.getContactNo() != null) pharmacy.setContactNo(pharmacy.getContactNo().trim());
+		if (pharmacy.getPinCode() != null) pharmacy.setPinCode(pharmacy.getPinCode().trim());
+		if (pharmacy.getCity() != null) pharmacy.setCity(pharmacy.getCity().trim());
+		if (pharmacy.getState() != null) pharmacy.setState(pharmacy.getState().trim());
+		if (pharmacy.getAddressLine1() != null) pharmacy.setAddressLine1(pharmacy.getAddressLine1().trim());
+		
+		System.out.println("after triming .."+pharmacy.getEmail());
+		
 		String result = pharmacyDao.addPharmacy(pharmacy);
 		// context.getExternalContext().getSessionMap().put("otpemail",
 		// pharmacy.getEmail());
 		// context.getExternalContext().getSessionMap().put("pharmacyObj", pharmacy);
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
 		context.getExternalContext().getSessionMap().put("otpemail", pharmacy.getEmail());
+		System.out.println("Done.............");
 
-		return "Otp.jsf?faces-redirect=true";
+		// getting temporary password
+		tempPass = pharmacyDao.TempPwd;
 
+		// after signUp all fields get null
+
+		String temp = pharmacyDao.TempPwd;
+		System.out.println("temp-----" + temp);
+		System.out.println();
+		pharmacy.setFirstName(null);
+		pharmacy.setMiddleName(null);
+		pharmacy.setLastName(null);
+		pharmacy.setGender(null);
+		pharmacy.setOwnerEmail(null);
+		pharmacy.setOwnerMobile(null);
+		pharmacy.setAadhar(null);
+		pharmacy.setOwnerAddress(null);
+		pharmacy.setPharmacyName(null);
+		pharmacy.setLicenseNo(null);
+		pharmacy.setGstNo(null);
+		pharmacy.setEmail(null);
+		pharmacy.setContactNo(null);
+		pharmacy.setPinCode(null);
+		pharmacy.setAddressLine1(null);
+		pharmacy.setState(null);
+		pharmacy.setCity(null);
+		sendOtpDisabled = false;
+		return "SucessRegister.jsf?faces-redirect=true";
+
+	}
+
+	public String loginWithOtp() {
+		loginEmail = null;
+		sendOtpDisabled = false;
+		loginOtp = null;
+		return "LoginWithOtp.jsf?faces-redirect=true";
+	}
+
+	public String resetPassword() {
+		return "resetPassword.jsf?faces-redirect=true";
 	}
 
 	/**
@@ -303,6 +378,12 @@ public class PharmacyController {
 	 */
 	private boolean isAlphabetic(String input) {
 		return input != null && input.matches("^[a-zA-Z]+( [a-zA-Z]+)*$");
+	}
+
+	/** checking password strength/ how strong password is ? */
+	private boolean isStrongPassword(String password) {
+		String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{8,}$";
+		return Pattern.matches(regex, password);
 	}
 
 	/**
@@ -319,7 +400,7 @@ public class PharmacyController {
 	public String validateLogin() {
 		FacesContext cont = FacesContext.getCurrentInstance();
 
-		String email = pharmacy.getEmail();
+		String email = pharmacy.getEmail().trim();
 		String password = pharmacy.getPassword();
 		boolean isValid = true;
 		// validate email
@@ -328,7 +409,7 @@ public class PharmacyController {
 			isValid = false;
 		}
 
-		if (!isValidEmail(email)) {
+		if (!isValidEmail(email.trim())) {
 			cont.addMessage("form:email", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
 			isValid = false;
 		}
@@ -351,12 +432,16 @@ public class PharmacyController {
 			return null;
 		}
 		// if valid, proceed.....
+		 
 		if (pharmacyDao.validatePassword(email, password)) {
 			Pharmacy found = pharmacyDao.getPharmacyByEmail(email);
 
 			if (!"Active".equalsIgnoreCase(found.getStatus())) {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Account not activated. Please wait for admin approval.", null));
+				System.out.println("email is..."+pharmacy.getEmail());
+				pharmacy.setEmail(null);
+				System.out.println("email is..."+pharmacy.getEmail());
 				return null;
 			}
 
@@ -372,114 +457,18 @@ public class PharmacyController {
 			context.getExternalContext().getSessionMap().put("state", found.getState());
 			context.getExternalContext().getSessionMap().put("zip_code", found.getPinCode());
 
-			pharmacy.setEmail(null);
-			pharmacy.setPassword(null);
-			return "Pharmacy.jsf?faces-redirect=true";
-		}
 
+			return "Pharmacy.jsf?faces-redirect=true";
+			
+		}
+		
 //        if (pharmacyDao.validateTempPassword(email, password)) {
 //            return "Login.jsf?faces-redirect=true";
 //        }
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid credentials", null));
-		return null;
-	}
-
-	/**
-	 * currently not using this
-	 * 
-	 * Checks temporary password and redirects to reset
-	 * 
-	 * public String validateTempPassword() {
-	 * 
-	 * String email = pharmacy.getEmail(); String password = pharmacy.getPassword();
-	 * 
-	 * //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email",
-	 * email);
-	 * 
-	 * boolean isValid = pharmacyDao.validateTempPassword(email, password);
-	 * 
-	 * if (isValid) { return "ResetPasword.jsf?faces-redirect=true"; } else {
-	 * FacesContext.getCurrentInstance().addMessage(null, new
-	 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid password. Please check
-	 * your email.", null)); return null; } }
-	 * 
-	 */
-
-	/**
-	 * OTP verification (not using-> generating temp password)
-	 */
-
-	public String generatePassword(String email, int otp) {
-		String result = pharmacyDao.generatePassword(email, otp);
-		if (result.contains("Otp verified")) {
-			//pharmacyOtp.setOtpCode(null);
-			return "ResetPasword.jsf?faces-redirect=true";
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
-			return null;
-		}
-	}
-
-	/** checking password strength/ how strong password is ? */
-	private boolean isStrongPassword(String password) {
-		String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
-		return Pattern.matches(regex, password);
-	}
-
-	/**
-	 * Resetting password after OTP saving the password for first time users....
-	 */
-	public String updatePassword(String email, String pwd) {
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if (pwd == null || pwd.trim().isEmpty()) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords can't be empty", null));
-			return null;
-		}
-		if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm passwords is required.", null));
-			return null;
-		}
-		if (!pwd.equals(confirmPassword)) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.", null));
-			return null;
-		}
-
-		if (!isStrongPassword(pwd)) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Password must be at least 8 characters long and include uppercase, lowercase, digit, and special character.",
-					null));
-			return null;
-		}
-		if (pharmacy.getPassword() == null) {
-			context.addMessage("form:pwd",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords Value is required.", null));
-		}
-
-		String result = pharmacyDao.updatePassword(email, pwd);
-		if ("Pharmacy Updated Successfully".equals(result)) {
-			context.getExternalContext().getFlash().put("message", "Password updated successfully.");
-			return "Login.jsf?faces-redirect=true";
-		} else {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
-			return null;
-		}
-	}
-
-	/**
-	 * Resends OTP
-	 */
-	public String resendOtp() {
-		String email = pharmacy.getEmail();
-		String result = pharmacyDao.resendOtp(email);
-		String temp =pharmacyOtp.getOtpCode();
-		System.out.println("temp otp is ............."+ temp);
-		pharmacyOtp.setOtpCode(null);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+		pharmacy.setEmail(null);
 		return null;
 	}
 
@@ -528,126 +517,204 @@ public class PharmacyController {
 		pharmacy.setOwnerAddress(null);
 		return null;
 	}
-	/** login by OTP 
+
+	/**
+	 * login by OTP
 	 * 
 	 */
 	private String loginEmail;
 	private String loginOtp;
 
 	public String getLoginEmail() {
-	    return loginEmail;
+		return loginEmail;
 	}
+
 	public void setLoginEmail(String loginEmail) {
-	    this.loginEmail = loginEmail;
+		this.loginEmail = loginEmail;
 	}
 
 	public String getLoginOtp() {
-	    return loginOtp;
-	}
-	public void setLoginOtp(String loginOtp) {
-	    this.loginOtp = loginOtp;
+		return loginOtp;
 	}
 
-	/** 
+	public void setLoginOtp(String loginOtp) {
+		this.loginOtp = loginOtp;
+	}
+
+	private boolean sendOtpDisabled = false;
+
+
+	public boolean isSendOtpDisabled() {
+		return sendOtpDisabled;
+	}
+
+	public void setSendOtpDisabled(boolean sendOtpDisabled) {
+		this.sendOtpDisabled = sendOtpDisabled;
+	}
+
+
+	/**
 	 * send OTP during login by sendLoginOtp(from daoimpl)
 	 */
 	public String sendLoginOtp() {
-	    FacesContext ctx = FacesContext.getCurrentInstance();
+		FacesContext ctx = FacesContext.getCurrentInstance();
 
-	    if (loginEmail == null || loginEmail.trim().isEmpty()) {
-	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email is required.", null));
-	        return null;
-	    }
+		loginEmail = loginEmail.trim();
+		System.out.println("otppppp"+loginEmail);
+		if (loginEmail == null || loginEmail.isEmpty()) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email is required.", null));
+			return null;
+		}
 
-	    if (!isValidEmail(loginEmail)) {
-	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
-	        return null;
-	    }
+		if (!isValidEmail(loginEmail)) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
+			return null;
+		}
+		ctx.getExternalContext().getSessionMap().put("otpEmail", loginEmail);
+		String result = pharmacyDao.sendLoginOtp(loginEmail);
 
-	    String result = pharmacyDao.sendLoginOtp(loginEmail);
-	    ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
-	    return null;
+//		ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+//		System.out.println("otppppp"+loginEmail);
+		if(result.contains("Email not registered")) {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+			System.out.println("current value is .."+sendOtpDisabled);
+		}
+		else {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+			sendOtpDisabled = true;
+			
+		}
+		
+		return null;
 	}
 
-	/** 
+	/**
 	 * verify OTP entered by user with actual OTP
 	 */
 	public String verifyLoginOtp() {
-	    FacesContext ctx = FacesContext.getCurrentInstance();
-	    String result = pharmacyDao.verifyLoginOtp(loginEmail, loginOtp);
-	    if (loginOtp == null || loginOtp.trim().isEmpty()) {
-	        ctx.addMessage("otpForm:otp", new FacesMessage(FacesMessage.SEVERITY_ERROR, "OTP is required.", null));
-	        return null;
-	    }
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		loginEmail = loginEmail.trim();
+		String result = pharmacyDao.verifyLoginOtp(loginEmail, loginOtp);
+		if (loginOtp == null || loginOtp.trim().isEmpty()) {
+			ctx.addMessage("otpForm:otp", new FacesMessage(FacesMessage.SEVERITY_ERROR, "OTP is required.", null));
+			return null;
+		}
 
-	    if ("OTP verified successfully.".equals(result)) {
-	       // this.loginEmail = loginEmail;
-	        ctx.getExternalContext().getSessionMap().put("otpemail", loginEmail);
-	        return "CreatePassword.jsf?faces-redirect=true";
-	    } else {
-	        ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
-	        return null;
-	    }
+		if ("OTP verified successfully.".equals(result)) {
+			// this.loginEmail = loginEmail;
+			ctx.getExternalContext().getSessionMap().put("otpemail", loginEmail);
+			return "CreatePassword.jsf?faces-redirect=true";
+		} else {
+			ctx.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+			
+			return null;
+		}
 	}
-	
+
+	/**
+	 * Resend OTP controller
+	 */
 	public String resendLoginOtp() {
-	    FacesContext context = FacesContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
+		loginOtp = null;
+		loginEmail = loginEmail.trim();
+		// validation.........
+		if (loginEmail == null || loginEmail.trim().isEmpty()) {
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please enter your registered email first.", null));
+			return null;
+		}
+		if (!isValidEmail(loginEmail)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid email format.", null));
+			return null;
+		}
+		// calling DAOIMPL resendLoginOtp method
+		String result = pharmacyDao.resendLoginOtp(loginEmail);
 
-	    if (loginEmail == null || loginEmail.trim().isEmpty()) {
-	        context.addMessage(null,
-	            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please enter your registered email first.", null));
-	        return null;
-	    }
-
-	    String result = pharmacyDao.resendLoginOtp(loginEmail);
-	    if (result.contains("successfully")) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
-	    } else {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
-	    }
-
-	    return null;
+		pharmacyOtp.setOtpCode(null);
+		String s1 = pharmacyOtp.getOtpCode();
+		System.out.println("code........." + s1);
+		if (result.contains("successfully")) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, result, null));
+		} else {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+		}
+		
+		return null;
 	}
 
+	/**
+	 * update password after verifying OTP
+	 */
+
+	private String temporaryPassword;
+
+	public String getTemporaryPassword() {
+		return temporaryPassword;
+	}
+
+	public void setTemporaryPassword(String temporaryPassword) {
+		this.temporaryPassword = temporaryPassword;
+	}
 
 	public String updatePasswordByOtp() {
-	    FacesContext context = FacesContext.getCurrentInstance();
-	   // String email = (String) context.getExternalContext().getSessionMap().get("otpEmail");
+		FacesContext context = FacesContext.getCurrentInstance();
+		String email = (String) context.getExternalContext().getSessionMap().get("otpemail");
 
-	    String email = loginEmail;
+		// String email = loginEmail;
+		// Validation
+		if (pharmacy.getPassword() == null || pharmacy.getPassword().trim().isEmpty()) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password is required.", null));
+			return null;
+		}
 
-	    if (pharmacy.getPassword() == null || pharmacy.getPassword().trim().isEmpty()) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password is required.", null));
-	        return null;
-	    }
+		if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password is required.", null));
+			return null;
+		}
 
-	    if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Confirm Password is required.", null));
-	        return null;
-	    }
+		if (!pharmacy.getPassword().equals(confirmPassword)) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.", null));
+			return null;
+		}
 
-	    if (!pharmacy.getPassword().equals(confirmPassword)) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.", null));
-	        return null;
-	    }
+		if (!isStrongPassword(pharmacy.getPassword())) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Password must be at least 8 characters and include uppercase, lowercase, digit, and special character.",
+					null));
+			return null;
+		}
 
-	    if (!isStrongPassword(pharmacy.getPassword())) {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	                "Password must be at least 8 characters and include uppercase, lowercase, digit, and special character.",
-	                null));
-	        return null;
-	    }
+		if (temporaryPassword == null || temporaryPassword.trim().isEmpty()) {
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Temporary Password is required.", null));
+			return null;
+		}
 
-	    String result = pharmacyDao.updatePasswordByOtpLogin(email, pharmacy.getPassword());
+		// calling DaoImpl method
+		System.out.println("email is ,............." + email);
+		// String result = pharmacyDao.updatePasswordByOtpLogin(email,
+		// pharmacy.getPassword(),pharmacyOtp.getNewPassword());
 
-	    System.out.println("email is ,............."+email);
-	    if ("Password reset successfully.".equals(result)) {
-	        context.getExternalContext().getFlash().put("message", "Password updated successfully. Please login.");
-	        return "Login.jsf?faces-redirect=true";
-	    } else {
-	        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
-	        return null;
-	    }
+		String result = pharmacyDao.updatePasswordByOtpLogin(email, pharmacy.getPassword(), temporaryPassword);
+		System.out.println("email is ,............." + loginEmail);
+		if ("Password reset successfully.".equals(result)) {
+			context.getExternalContext().getFlash().put("message", "Password updated successfully. Please login.");
+			loginEmail=null;
+			return "Login.jsf?faces-redirect=true";
+		} else {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, result, null));
+			return null;
+		}
 	}
 
+	
+	
+	public String returnBack() {
+		
+		return "AddPharmacy.jsf?faces-redirect=true";
+	}
+	
+	
 }

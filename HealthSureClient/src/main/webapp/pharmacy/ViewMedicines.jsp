@@ -46,9 +46,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex; align-items: center;justify-content:center;">
 								<h:outputText value="ID" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px; display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('medicineId')}"
 										rendered="#{!(medicinesController.sortField eq 'medicineId' and medicinesController.sortAscending)}"
@@ -68,9 +68,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex;  align-items: center;justify-content:center;">
 								<h:outputText value="Name" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px; display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('medicineName')}"
 										rendered="#{!(medicinesController.sortField eq 'medicineName' and medicinesController.sortAscending)}"
@@ -90,9 +90,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex; align-items: center;justify-content:center;">
 								<h:outputText value="Description" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('description')}"
 										rendered="#{!(medicinesController.sortField eq 'description' and medicinesController.sortAscending)}"
@@ -113,9 +113,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex; align-items: center;justify-content:center;">
 								<h:outputText value="Stock" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('quantityInStock')}"
 										rendered="#{!(medicinesController.sortField eq 'quantityInStock' and medicinesController.sortAscending)}"
@@ -135,9 +135,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex; align-items: center;justify-content:center;">
 								<h:outputText value="Price" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('unitPrice')}"
 										rendered="#{!(medicinesController.sortField eq 'unitPrice' and medicinesController.sortAscending)}"
@@ -158,9 +158,9 @@
 					<h:column>
 						<f:facet name="header">
 							<h:panelGroup layout="block"
-								style="display: flex; align-items: center;">
+								style="display: flex; align-items: center;justify-content:center;">
 								<h:outputText value="Expiry Date" />
-								<h:panelGroup style="margin-left: 5px;">
+								<h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
 									<h:commandLink
 										action="#{medicinesController.sortByAsc('expiryDate')}"
 										rendered="#{!(medicinesController.sortField eq 'expiryDate' and medicinesController.sortAscending)}"

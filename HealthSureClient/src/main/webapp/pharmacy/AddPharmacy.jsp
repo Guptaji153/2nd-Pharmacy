@@ -127,7 +127,7 @@
 
 					<h:selectBooleanCheckbox id="termsCheckbox" />
 					<h:outputText value=" I accept all " style="margin-left: 3px;" />
-					<h:outputLink value="TermsCondition.jsp"
+					<h:outputLink value="TermsCondition.jsf"
 						style="margin-left: 5%; text-decoration: none; font-size: 14px; color:blue">terms&conditions</h:outputLink>
 
 				</div>

@@ -31,7 +31,7 @@
 					<!-- OTP code -->
 					<div class="form-group">
 						<h:outputLabel for="otp" value="OTP:" styleClass="form-label" />
-						<h:inputText id="otp" value="#{controller.pharmacyOtp.otpCode}"
+						<h:inputText id="otp" value="#{pharmacyOtp.otpCode}"
 							styleClass="form-input" />
 					</div>
 					<!-- OTP submit/validate button -->

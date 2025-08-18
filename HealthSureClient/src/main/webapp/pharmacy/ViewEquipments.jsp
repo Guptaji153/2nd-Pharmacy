@@ -39,9 +39,9 @@
     <!-- ID -->
 <h:column>
         <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center; justify-content:center;">
                 <h:outputText value="ID" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('equipmentId')}"
                                    rendered="#{!(equipmentController.sortField eq 'equipmentId' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -57,9 +57,9 @@
     <!-- Name (Sortable) -->
     <h:column>
         <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
                 <h:outputText value="Name" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('equipmentName')}"
                                    rendered="#{!(equipmentController.sortField eq 'equipmentName' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -75,9 +75,9 @@
     <!-- Description -->
     <h:column>
         <f:facet name="header">
-        <h:panelGroup layout="block" style="display: flex; align-items: center;">
+        <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
         <h:outputText value="Description" />
-        <h:panelGroup style="margin-left: 5px;">
+        <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
         <h:commandLink action="#{equipmentController.sortByAsc('description')}"
                                    rendered="#{!(equipmentController.sortField eq 'description' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -94,9 +94,9 @@
     <!-- Quantity (Sortable) -->
     <h:column>
         <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
                 <h:outputText value="Stock" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('quantityInStock')}"
                                    rendered="#{!(equipmentController.sortField eq 'quantityInStock' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -112,9 +112,9 @@
     <!-- Unit Price (Sortable) -->
     <h:column>
          <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
                 <h:outputText value="Price" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('unitPrice')}"
                                    rendered="#{!(equipmentController.sortField eq 'unitPrice' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -130,9 +130,9 @@
     <!-- Purchase Date  -->
     <h:column>
         <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
                 <h:outputText value="Purchase Date" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('purchaseDate')}"
                                    rendered="#{!(equipmentController.sortField eq 'purchaseDate' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>
@@ -148,9 +148,9 @@
      <!-- Status  -->
     <h:column>
     <f:facet name="header">
-            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+            <h:panelGroup layout="block" style="display: flex; align-items: center;justify-content:center;">
                 <h:outputText value="Status" />
-                <h:panelGroup style="margin-left: 5px;">
+                <h:panelGroup style="margin-left: 5px;display: flex; flex-direction:column;">
                     <h:commandLink action="#{equipmentController.sortByAsc('status')}"
                                    rendered="#{!(equipmentController.sortField eq 'status' and equipmentController.sortAscending)}"
                                    style="margin: 0 3px;">▲</h:commandLink>

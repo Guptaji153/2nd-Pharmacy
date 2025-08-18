@@ -16,7 +16,8 @@ public class MailSend {
         //String to = "prasanna.trainer@gmail.com";
 
         // Sender's email ID needs to be mentioned
-        String from = "prasanna.vsp80@gmail.com";
+       // String from = "prasanna.vsp80@gmail.com";
+        String from = "infinitehealthsure@gmail.com";
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
@@ -35,8 +36,8 @@ public class MailSend {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("prasanna.vsp80@gmail.com", "soqdhechjkcchkgl");
-
+               // return new PasswordAuthentication("prasanna.vsp80@gmail.com", "soqdhechjkcchkgl");
+            	return new PasswordAuthentication("infinitehealthsure@gmail.com", "xrascqydsfthxttk");
             }
 
         });

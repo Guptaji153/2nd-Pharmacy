@@ -17,7 +17,7 @@
 		</property>
 
 		<property name="otpCode" type="java.lang.String">
-			<column name="otp_code" not-null="true" />
+			<column name="otp_code"  />
 		</property>
 
 		<!-- <property name="purpose" type="com.java.test.model.Purpose"> <column 
@@ -53,7 +53,7 @@
 		</property>
 
 		<property name="expiresAt" type="timestamp">
-			<column name="expires_at" not-null="true" />
+			<column name="expires_at"  />
 		</property>
 
 	</class>

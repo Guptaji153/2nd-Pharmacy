@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 
@@ -11,7 +12,9 @@
 </head>
 <body>
 <jsp:include page="/navbar/NavAuthentication.jsp" />
+
 <div class ="top">
+
     <h:form id="form" styleClass="form-container">
     <!-- span tag for information -->
         <p style="font-size: 12px; color: #777;">
@@ -29,7 +32,7 @@
             <!-- Middle name -->
             <div class="form-group">
                 <label class="form-label">Middle Name</label>
-                <h:inputText id="middleName" value="#{pharmacy.middleName}" styleClass="form-input" />
+                <h:inputText id="middleName" value="#{controller.pharmacy.middleName}" styleClass="form-input" />
             </div>
         </div>
 		<!-- Second row -->
@@ -37,7 +40,7 @@
             <!-- Last name -->
             <div class="form-group">
                 <label class="form-label"><span style="color: red">*</span>Last Name </label>
-                <h:inputText id="lastName" value="#{pharmacy.lastName}" styleClass="form-input" />
+                <h:inputText id="lastName" value="#{controller.pharmacy.lastName}" styleClass="form-input" />
                 <h:message for="lastName" style="color:red" />
             </div>
             <!-- Gender -->
@@ -91,9 +94,12 @@
 		<h:commandButton value = "reset" action="#{controller.refreshButton }" styleClass="submit-button" />
 		
     </h:form>
+    
   </div>
+  
     <jsp:include page="/footer/Footer.jsp" />
 
 </body>
 </html>
+
 </f:view>

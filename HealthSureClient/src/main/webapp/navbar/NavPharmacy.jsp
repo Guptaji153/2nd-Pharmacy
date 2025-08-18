@@ -15,9 +15,9 @@
         <!-- PROVIDER NAV LINKS -->
         <ul class="nav-links">
             <li><a href="Pharmacy.jsf" class="nav-link">Home</a></li>
-            <li><a href="#" class="nav-link">Medicines</a></li>
-            <li><a href="#" class="nav-link">Equipments</a></li>
-            <li><a href="#" class="nav-link">Search & View</a></li>
+            <li><a href="MedicineHomepage.jsf" class="nav-link">Medicines</a></li>
+            <li><a href="EquipmentHomepage.jsf" class="nav-link">Equipments</a></li>
+            
             
         </ul>
 

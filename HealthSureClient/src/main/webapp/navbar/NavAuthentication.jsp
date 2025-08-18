@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <link rel="stylesheet" href="/HealthSureClient/resources/css/navAuth.css" />
+<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+<f:view>
 
 <nav id="navbar" class="navbar navbar-scrolled">
     <div class="navbar-container">
@@ -20,6 +23,7 @@
             <li><a href="#doctors" class="nav-link">Doctors</a></li>
             <li><a href="#aboutus" class="nav-link">About Us</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
+            
         </ul>
 
         <!-- LOGIN + SIGNUP -->
@@ -32,7 +36,9 @@
                     <li><a href="adminLogin.jsp">Admin</a></li>
                     <li><a href="providerLogin.jsp">Provider</a></li>
                     <li><a href="recipientLogin.jsp">Recipient</a></li>
-                    <li><a href="/HealthSureClient/pharmacy/Login.jsf">Pharmacy</a></li>
+                     <li><a href="/HealthSureClient/pharmacy/Login.jsf">Pharmacy</a></li> 
+                     
+                    
                 </ul>
             </div>
 
@@ -43,9 +49,11 @@
                     <li><a href="adminSignup.jsp">Admin</a></li>
                     <li><a href="providerSignup.jsp">Provider</a></li>
                     <li><a href="recipientSignup.jsp">Recipient</a></li>
-                    <li><a href="/HealthSureClient/pharmacy/AddOwner.jsf">Pharmacy</a></li>
+                    <li><a href="/HealthSureClient/pharmacy/AddOwner.jsf">Pharmacy</a></li> 
+                   
                 </ul>
             </div>
         </div>
     </div>
 </nav>
+</f:view>

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 
@@ -22,10 +21,21 @@
 				<h2>Reset Your Password</h2>
 
 				<!-- Email input -->
+				
 				<div class="form-group">
 					<h:outputLabel for="email" value="Email Id:"
 						styleClass="form-label" />
-					<h:inputText id="email" value="#{controller.loginEmail}"
+					<h:inputText id="email" value="#{sessionScope.otpEmail}"
+					  readonly="true"
+					 styleClass="form-input" />
+				</div>
+				
+				<!--   Temperary Password  -->
+				<div class="form-group">
+					<h:outputLabel for="TemperaryPassword" value="Temperary Password:"
+						styleClass="form-label" />
+					<h:inputText id="TemperaryPassword" value="#{controller.temporaryPassword}"
+					  
 					 styleClass="form-input" />
 				</div>
 

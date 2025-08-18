@@ -1,49 +1,118 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsf/core" %>
 <%@ taglib prefix="h" uri="http://java.sun.com/jsf/html" %>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Provider Home</title>
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Pharmacy Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 100px 0 0 0;;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+ 
+        .wrapper, .banner {
+            width: 100%;
+            overflow: hidden;
+        }
+ 
+        .banner img {
+            width: 100%;
+            height: 100vh;
+            display: block;
+        }
+ 
+        .welcome {
+            background-color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+ 
+        .welcome h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+ 
+        .welcome p {
+            font-size: 18px;
+            color: #555;
+        }
+ 
+        .services {
+            background-color: #eaf2f8;
+            padding: 40px 20px;
+            text-align: center;
+        }
+ 
+        .services h3 {
+            font-size: 24px;
+            color: #21618c;
+            margin-bottom: 30px;
+        }
+ 
+        .services ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+ 
+        .services li {
+            background-color: #ffffff;
+            width: 260px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 16px;
+            display: flex;
+    		flex-direction: column;
+    		align-items: center;
+    		justify-content: flex-start;
+        }
+ 
+        .services li img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-
-<body class="bg-gray-100">
-
+ 
+<body>
 <f:view>
-    <!-- ✅ Include Fixed Navbar -->
     <jsp:include page="/navbar/NavPharmacy.jsp" />
-
-    <!-- ✅ Main Content -->
-    <div class="max-w-4xl mx-auto pt-28 px-4 text-center mb-20">
-
-       
-
-        <!-- ✅ Action Buttons -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-		    <h:form>
-		        <h:commandButton value="View Medicines Stocks" action="#{medicinesController.resetSearch}"
-		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
-		    </h:form>
-		    <h:form>
-		        <h:commandButton value="View Equipments Stocks" action="#{equipmentController.resetSearch}"
-		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
-		    </h:form>
-		    <h:form>
-		        <h:commandButton value="Create Claim" action="#{providerBean.createClaim}"
-		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
-		    </h:form>
-		    <h:form>
-		        <h:commandButton value="Search Payments" action="#{providerBean.searchPayments}"
-		            styleClass="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105" />
-		    </h:form>
-		</div>
+ 
+    <div class="wrapper"></div>
+    <div class="banner">
+        <img src="/HealthSureClient/resources/media/images/banner.jpg" alt="Pharmacy Banner" />
     </div>
+ 
+    <section class="welcome">
+        <h2>
+        	<h:outputText value="Welcome to #{sessionScope.pharmacy_name }"/>
+        </h2>
+        <p>Your trusted partner in health and wellness. Browse our products, explore resources, and get expert advice—all in one place.</p>
+    </section>
+ 
+    <section class="services">
+        <h3>Our Services</h3>
+        <ul>
+            <li><img src="/HealthSureClient/resources/media/images/medicines.jpg" alt="Medicines" /> Wide range of medicines</li>
+            <li><img src="/HealthSureClient/resources/media/images/consultation.jpg" alt="Consultation" /> Free pharmacist consultation</li>
+            <li><img src="/HealthSureClient/resources/media/images/delivery.jpg" alt="Delivery" /> Fast and safe home delivery</li>
+        </ul>
+    </section>
 </f:view>
-
-<!-- ✅ Footer -->
+ 
 <jsp:include page="/footer/Footer.jsp" />
 </body>
 </html>
